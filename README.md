@@ -1,6 +1,9 @@
 # Cinnamon Akka Streams Demo
 
-Demo showing work-in-progress for Akka Streams and Scala Future metrics.
+Demo showing work-in-progress for [Akka Stream metrics] and [Scala Future metrics].
+
+[Akka Stream metrics]: https://downloads.lightbend.com/cinnamon/docs/2.9.0-20180219-885e3ae-streams/instrumentations/akka-streams/akka-streams.html
+[Scala Future metrics]: https://downloads.lightbend.com/cinnamon/docs/2.9.0-20180219-885e3ae-streams/instrumentations/scala/scala-futures.html 
 
 
 ## Credentials file
