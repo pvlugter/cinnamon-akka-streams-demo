@@ -149,7 +149,7 @@
           },
           "yaxes": [
             {
-              "format": "short",
+              "format": "ns",
               "label": null,
               "logBase": 1,
               "max": null,
