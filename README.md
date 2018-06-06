@@ -2,8 +2,8 @@
 
 Demo showing work-in-progress for [Akka Stream metrics] and [Scala Future metrics].
 
-[Akka Stream metrics]: https://downloads.lightbend.com/cinnamon/docs/2.10.0-20180523-17f3e6d/instrumentations/akka-streams/akka-streams.html
-[Scala Future metrics]: https://downloads.lightbend.com/cinnamon/docs/2.10.0-20180523-17f3e6d/instrumentations/scala/scala-futures.html 
+[Akka Stream metrics]: https://downloads.lightbend.com/cinnamon/docs/2.10.0-20180605-26e7708-streams/instrumentations/akka-streams/akka-streams.html
+[Scala Future metrics]: https://downloads.lightbend.com/cinnamon/docs/2.10.0-20180605-26e7708-streams/instrumentations/scala/scala-futures.html 
 
 
 ## Credentials file
@@ -27,9 +27,11 @@ password = <password>
 Start up the Prometheus docker sandbox, with Grafana dashboards:
 
 ```
-cd cinnamon-prometheus-docker-sandbox
+cd sandbox
 docker-compose up
 ```
+
+> Note: the Prometheus sandbox is configured for Docker for Mac. Since Prometheus needs an address to scrape from, the Prometheus configuration will need to be updated for other platforms. 
 
 Run the demo application:
 

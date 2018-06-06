@@ -1,6 +1,6 @@
 {
   "id": null,
-  "title": "Actor Persistence",
+  "title": "Remote Actors",
   "tags": [],
   "style": "dark",
   "timezone": "browser",
@@ -53,29 +53,14 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "akka_recovery_permitter_used_permits_value{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", quantile=~\"0.99\"}",
+              "expr": "irate(akka_actor_remote_sent_messages{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\", actor=~\"$RemoteActors\"}[1m])",
               "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / {{actor_system}} / p99"
-            },
-            {
-              "expr": "akka_recovery_permitter_used_permits_value{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", quantile=~\"0.95\"}",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / {{actor_system}} / p95"
-            },
-            {
-              "expr": "akka_recovery_permitter_used_permits_value{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", quantile=~\"0.5\"}",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / {{actor_system}} / p50"
-            },
-            {
-              "expr": "akka_recovery_permitter_max_permits_value",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / {{actor_system}} / max-limit"
+              "legendFormat": "{{host}} / {{dispatcher}} / {{actor}}"
             }
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Used permits",
+          "title": "Remote Messages Sent: 1 min",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -88,11 +73,11 @@
           },
           "yaxes": [
             {
-              "format": "short",
-              "label": null,
+              "format": "ops",
+              "label": "messages/second",
               "logBase": 1,
               "max": null,
-              "min": null,
+              "min": 0,
               "show": true
             },
             {
@@ -144,24 +129,14 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "akka_recovery_permitter_pending_actors_value{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", quantile=~\"0.99\"}",
+              "expr": "irate(akka_actor_remote_received_messages{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\", actor=~\"$RemoteActors\"}[1m])",
               "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / {{actor_system}} / p99"
-            },
-            {
-              "expr": "akka_recovery_permitter_pending_actors_value{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", quantile=~\"0.95\"}",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / {{actor_system}} / p95"
-            },
-            {
-              "expr": "akka_recovery_permitter_pending_actors_value{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", quantile=~\"0.5\"}",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / {{actor_system}} / p50"
+              "legendFormat": "{{host}} / {{dispatcher}} / {{actor}}"
             }
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Pending permits",
+          "title": "Remote Messages Received: 1 min",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -174,11 +149,11 @@
           },
           "yaxes": [
             {
-              "format": "short",
-              "label": null,
+              "format": "ops",
+              "label": "messages/second",
               "logBase": 1,
               "max": null,
-              "min": null,
+              "min": 0,
               "show": true
             },
             {
@@ -199,6 +174,82 @@
       "editable": true,
       "height": "250px",
       "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "Cinnamon Prometheus",
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 5,
+          "interval": "10s",
+          "isNew": true,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 6,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "akka_actor_remote_sent_message_size{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\", actor=~\"$RemoteActors\", quantile=~\"$MetricType\"}",
+              "format": "time_series",
+              "legendFormat": "{{host}} / {{dispatcher}} / {{actor}}"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Remote Sent Message Size: $MetricType",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "value_type": "cumulative",
+            "sort": 0
+          },
+          "type": "graph",
+          "xaxis": {
+            "show": true
+          },
+          "yaxes": [
+            {
+              "format": "bytes",
+              "label": "",
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        },
         {
           "aliasColors": {},
           "bars": false,
@@ -238,24 +289,98 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "akka_actor_persistence_recovery_time_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\", actor=~\"$Actors\", quantile=~\"0.99\"}",
+              "expr": "akka_actor_remote_received_message_size{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\", actor=~\"$RemoteActors\", quantile=~\"$MetricType\"}",
               "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / {{actor_system}} / p99"
-            },
-            {
-              "expr": "akka_actor_persistence_recovery_time_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\", actor=~\"$Actors\", quantile=~\"0.95\"}",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / {{actor_system}} / p95"
-            },
-            {
-              "expr": "akka_actor_persistence_recovery_time_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\", actor=~\"$Actors\", quantile=~\"0.5\"}",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / {{actor_system}} / p50"
+              "legendFormat": "{{host}} / {{dispatcher}} / {{actor}}"
             }
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Recovery time $Actors",
+          "title": "Remote Received Message Size: $MetricType",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "value_type": "cumulative",
+            "sort": 0
+          },
+          "type": "graph",
+          "xaxis": {
+            "show": true
+          },
+          "yaxes": [
+            {
+              "format": "bytes",
+              "label": "",
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "",
+      "collapse": false,
+      "editable": true,
+      "height": "250px",
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "Cinnamon Prometheus",
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 6,
+          "interval": "10s",
+          "isNew": true,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 6,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "akka_actor_remote_serialization_time_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\", actor=~\"$RemoteActors\", quantile=~\"$MetricType\"}",
+              "format": "time_series",
+              "legendFormat": "{{host}} / {{dispatcher}} / {{actor}}"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Remote Serialization Time: $MetricType",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -269,10 +394,10 @@
           "yaxes": [
             {
               "format": "ns",
-              "label": null,
+              "label": "",
               "logBase": 1,
               "max": null,
-              "min": null,
+              "min": 0,
               "show": true
             },
             {
@@ -324,24 +449,14 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "akka_actor_persistence_recovery_failure_time_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\", actor=~\"$Actors\", quantile=~\"0.99\"}",
+              "expr": "akka_actor_remote_deserialization_time_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\", actor=~\"$RemoteActors\", quantile=~\"$MetricType\"}",
               "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / {{actor_system}} / p99"
-            },
-            {
-              "expr": "akka_actor_persistence_recovery_failure_time_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\", actor=~\"$Actors\", quantile=~\"0.95\"}",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / {{actor_system}} / p95"
-            },
-            {
-              "expr": "akka_actor_persistence_recovery_failure_time_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\", actor=~\"$Actors\", quantile=~\"0.5\"}",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / {{actor_system}} / p50"
+              "legendFormat": "{{host}} / {{dispatcher}} / {{actor}}"
             }
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Recovery failure time $Actors",
+          "title": "Remote Deserialization Time: $MetricType",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -355,10 +470,10 @@
           "yaxes": [
             {
               "format": "ns",
-              "label": null,
+              "label": "",
               "logBase": 1,
               "max": null,
-              "min": null,
+              "min": 0,
               "show": true
             },
             {
@@ -371,8 +486,7 @@
             }
           ]
         }
-      ],
-      "repeat": "Actors"
+      ]
     }
   ],
   "time": {
@@ -476,11 +590,27 @@
           "hide": 0,
           "includeAll": true,
           "multi": true,
-          "name": "Actors",
+          "name": "RemoteActors",
           "options": [],
           "query": "query_result(akka_actor_running_actors{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\"})",
           "refresh": 1,
           "regex": "/actor=\"([^\"]+)/",
+          "tagValuesQuery": "",
+          "tagsQuery": "name",
+          "type": "query",
+          "useTags": false
+      },
+      {
+          "current": {},
+          "datasource": "Cinnamon Prometheus",
+          "hide": 0,
+          "includeAll": true,
+          "multi": true,
+          "name": "MetricType",
+          "options": [],
+          "query": "label_values(akka_actor_mailbox_size, quantile)",
+          "refresh": 1,
+          "regex": "",
           "tagValuesQuery": "",
           "tagsQuery": "name",
           "type": "query",

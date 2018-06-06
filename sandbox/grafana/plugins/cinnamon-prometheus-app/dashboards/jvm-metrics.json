@@ -1,6 +1,6 @@
 {
   "id": null,
-  "title": "Remote Actors",
+  "title": "JVM Metrics",
   "tags": [],
   "style": "dark",
   "timezone": "browser",
@@ -27,7 +27,7 @@
             "threshold2": null,
             "threshold2Color": "rgba(234, 112, 112, 0.22)"
           },
-          "id": 1,
+          "id": 7,
           "interval": "10s",
           "isNew": true,
           "legend": {
@@ -53,14 +53,29 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "irate(akka_actor_remote_sent_messages{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\", actor=~\"$RemoteActors\"}[1m])",
+              "expr": "jvm_heap_committed{host=~\"$Servers\", application=~\"$Applications\"}",
               "format": "time_series",
-              "legendFormat": "{{host}} / {{dispatcher}} / {{actor}}"
+              "legendFormat": "{{host}} / {{application}} / heap_committed"
+            },
+            {
+              "expr": "jvm_heap_init{host=~\"$Servers\", application=~\"$Applications\"}",
+              "format": "time_series",
+              "legendFormat": "{{host}} / {{application}} / heap_init"
+            },
+            {
+              "expr": "jvm_heap_max{host=~\"$Servers\", application=~\"$Applications\"}",
+              "format": "time_series",
+              "legendFormat": "{{host}} / {{application}} / heap_max"
+            },
+            {
+              "expr": "jvm_heap_used{host=~\"$Servers\", application=~\"$Applications\"}",
+              "format": "time_series",
+              "legendFormat": "{{host}} / {{application}} / heap_used"
             }
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Remote Messages Sent: 1 min",
+          "title": "Heap",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -73,11 +88,11 @@
           },
           "yaxes": [
             {
-              "format": "ops",
-              "label": "messages/second",
+              "format": "bytes",
+              "label": null,
               "logBase": 1,
               "max": null,
-              "min": null,
+              "min": 0,
               "show": true
             },
             {
@@ -90,6 +105,204 @@
             }
           ]
         },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "Cinnamon Prometheus",
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 6,
+          "interval": "10s",
+          "isNew": true,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 6,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "jvm_non_heap_committed",
+              "format": "time_series",
+              "legendFormat": "{{host}} / {{application}} / non_heap_committed"
+            },
+            {
+              "expr": "jvm_non_heap_init",
+              "format": "time_series",
+              "legendFormat": "{{host}} / {{application}} / non_heap_init"
+            },
+            {
+              "expr": "jvm_non_heap_max",
+              "format": "time_series",
+              "legendFormat": "{{host}} / {{application}} / non_heap_max"
+            },
+            {
+              "expr": "jvm_non_heap_used",
+              "format": "time_series",
+              "legendFormat": "{{host}} / {{application}} / non_heap_used"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Non Heap",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "value_type": "cumulative",
+            "sort": 0
+          },
+          "type": "graph",
+          "xaxis": {
+            "show": true
+          },
+          "yaxes": [
+            {
+              "format": "bytes",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "",
+      "collapse": false,
+      "editable": true,
+      "height": "250px",
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "Cinnamon Prometheus",
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 4,
+          "interval": "10s",
+          "isNew": true,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 6,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "jvm_total_committed",
+              "format": "time_series",
+              "legendFormat": "{{host}} / {{application}} / total_heap_committed"
+            },
+            {
+              "expr": "jvm_total_init",
+              "format": "time_series",
+              "legendFormat": "{{host}} / {{application}} / total_heap_init"
+            },
+            {
+              "expr": "jvm_total_max",
+              "format": "time_series",
+              "legendFormat": "{{host}} / {{application}} / total_heap_max"
+            },
+            {
+              "expr": "jvm_total_used",
+              "format": "time_series",
+              "legendFormat": "{{host}} / {{application}} / total_heap_used"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Total Heap",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "value_type": "cumulative",
+            "sort": 0
+          },
+          "type": "graph",
+          "xaxis": {
+            "show": true
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "",
+      "collapse": false,
+      "editable": true,
+      "height": "250px",
+      "panels": [
         {
           "aliasColors": {},
           "bars": false,
@@ -129,14 +342,19 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "irate(akka_actor_remote_received_messages{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\", actor=~\"$RemoteActors\"}[1m])",
+              "expr": "jvm_PS_MarkSweep_time",
               "format": "time_series",
-              "legendFormat": "{{host}} / {{dispatcher}} / {{actor}}"
+              "legendFormat": "{{host}} / {{application}} / PS_MarkSweep"
+            },
+            {
+              "expr": "jvm_PS_Scavenge_time",
+              "format": "time_series",
+              "legendFormat": "{{host}} / {{application}} / PS_Scavenge"
             }
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Remote Messages Received: 1 min",
+          "title": "GC Time",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -149,11 +367,92 @@
           },
           "yaxes": [
             {
-              "format": "ops",
-              "label": "messages/second",
+              "format": "ms",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
               "logBase": 1,
               "max": null,
               "min": null,
+              "show": true
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "Cinnamon Prometheus",
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 3,
+          "interval": "10s",
+          "isNew": true,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 6,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "jvm_PS_MarkSweep_count",
+              "format": "time_series",
+              "legendFormat": "{{host}} / {{application}} / PS_MarkSweep"
+            },
+            {
+              "expr": "jvm_PS_Scavenge_count",
+              "format": "time_series",
+              "legendFormat": "{{host}} / {{application}} / PS_Scavenge"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "GC Count",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "value_type": "cumulative",
+            "sort": 0
+          },
+          "type": "graph",
+          "xaxis": {
+            "show": true
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": 0,
               "show": true
             },
             {
@@ -213,14 +512,39 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "akka_actor_remote_sent_message_size{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\", actor=~\"$RemoteActors\", quantile=~\"$MetricType\"}",
+              "expr": "jvm_pools_Code_Cache_usage",
               "format": "time_series",
-              "legendFormat": "{{host}} / {{dispatcher}} / {{actor}}"
+              "legendFormat": "{{host}} / {{application}} / Code-Cache"
+            },
+            {
+              "expr": "jvm_pools_Compressed_Class_Space_usage",
+              "format": "time_series",
+              "legendFormat": "{{host}} / {{application}} / Compressed-Class-Space"
+            },
+            {
+              "expr": "jvm_pools_Metaspace_usage",
+              "format": "time_series",
+              "legendFormat": "{{host}} / {{application}} / Metaspace"
+            },
+            {
+              "expr": "jvm_pools_PS_Eden_Space_usage",
+              "format": "time_series",
+              "legendFormat": "{{host}} / {{application}} / PS-Eden-Space"
+            },
+            {
+              "expr": "jvm_pools_PS_Old_Gen_usage",
+              "format": "time_series",
+              "legendFormat": "{{host}} / {{application}} / PS-Old-Gen"
+            },
+            {
+              "expr": "jvm_pools_PS_Survivor_Space_usage",
+              "format": "time_series",
+              "legendFormat": "{{host}} / {{application}} / PS-Survivor-Space"
             }
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Remote Sent Message Size: $MetricType",
+          "title": "Memory Pools",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -233,11 +557,11 @@
           },
           "yaxes": [
             {
-              "format": "bytes",
-              "label": "",
+              "format": "short",
+              "label": null,
               "logBase": 1,
               "max": null,
-              "min": null,
+              "min": 0,
               "show": true
             },
             {
@@ -263,7 +587,7 @@
             "threshold2": null,
             "threshold2Color": "rgba(234, 112, 112, 0.22)"
           },
-          "id": 3,
+          "id": 1,
           "interval": "10s",
           "isNew": true,
           "legend": {
@@ -289,14 +613,19 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "akka_actor_remote_received_message_size{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\", actor=~\"$RemoteActors\", quantile=~\"$MetricType\"}",
+              "expr": "jvm_loaded",
               "format": "time_series",
-              "legendFormat": "{{host}} / {{dispatcher}} / {{actor}}"
+              "legendFormat": "{{host}} / {{application}} / loaded"
+            },
+            {
+              "expr": "jvm_unloaded",
+              "format": "time_series",
+              "legendFormat": "{{host}} / {{application}} / unloaded"
             }
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Remote Received Message Size: $MetricType",
+          "title": "Class Loading",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -308,172 +637,12 @@
             "show": true
           },
           "yaxes": [
-            {
-              "format": "bytes",
-              "label": "",
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            },
             {
               "format": "short",
               "label": null,
               "logBase": 1,
               "max": null,
-              "min": null,
-              "show": true
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "title": "",
-      "collapse": false,
-      "editable": true,
-      "height": "250px",
-      "panels": [
-        {
-          "aliasColors": {},
-          "bars": false,
-          "datasource": "Cinnamon Prometheus",
-          "editable": true,
-          "error": false,
-          "fill": 1,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
-          "id": 6,
-          "interval": "10s",
-          "isNew": true,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": false,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 2,
-          "links": [],
-          "nullPointMode": "null",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "span": 6,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "akka_actor_remote_serialization_time_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\", actor=~\"$RemoteActors\", quantile=~\"$MetricType\"}",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{dispatcher}} / {{actor}}"
-            }
-          ],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Remote Serialization Time: $MetricType",
-          "tooltip": {
-            "msResolution": false,
-            "shared": true,
-            "value_type": "cumulative",
-            "sort": 0
-          },
-          "type": "graph",
-          "xaxis": {
-            "show": true
-          },
-          "yaxes": [
-            {
-              "format": "ns",
-              "label": "",
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ]
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "datasource": "Cinnamon Prometheus",
-          "editable": true,
-          "error": false,
-          "fill": 1,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
-          "id": 4,
-          "interval": "10s",
-          "isNew": true,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": false,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 2,
-          "links": [],
-          "nullPointMode": "null",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "span": 6,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "akka_actor_remote_deserialization_time_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\", actor=~\"$RemoteActors\", quantile=~\"$MetricType\"}",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{dispatcher}} / {{actor}}"
-            }
-          ],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Remote Deserialization Time: $MetricType",
-          "tooltip": {
-            "msResolution": false,
-            "shared": true,
-            "value_type": "cumulative",
-            "sort": 0
-          },
-          "type": "graph",
-          "xaxis": {
-            "show": true
-          },
-          "yaxes": [
-            {
-              "format": "ns",
-              "label": "",
-              "logBase": 1,
-              "max": null,
-              "min": null,
+              "min": 0,
               "show": true
             },
             {
@@ -544,7 +713,7 @@
           "multi": true,
           "name": "Applications",
           "options": [],
-          "query": "query_result(akka_actor_running_actors{host=~\"$Servers\"})",
+          "query": "query_result(jvm_heap_committed{host=~\"$Servers\"})",
           "refresh": 1,
           "regex": "/application=\"([^\"]+)/",
           "tagValuesQuery": "",
@@ -553,68 +722,68 @@
           "useTags": false
       },
       {
-          "current": {},
-          "datasource": "Cinnamon Prometheus",
-          "hide": 0,
-          "includeAll": true,
-          "multi": true,
-          "name": "ActorSystems",
-          "options": [],
-          "query": "query_result(akka_actor_running_actors{host=~\"$Servers\", application=~\"$Applications\"})",
-          "refresh": 1,
-          "regex": "/actor_system=\"([^\"]+)/",
-          "tagValuesQuery": "",
-          "tagsQuery": "name",
-          "type": "query",
-          "useTags": false
+        "current": {},
+        "datasource": "Cinnamon Prometheus",
+        "hide": 0,
+        "includeAll": true,
+        "multi": true,
+        "name": "Not Applicable",
+        "options": [],
+        "query": "",
+        "refresh": 1,
+        "regex": "",
+        "tagValuesQuery": "",
+        "tagsQuery": "name",
+        "type": "query",
+        "useTags": false
       },
       {
-          "current": {},
-          "datasource": "Cinnamon Prometheus",
-          "hide": 0,
-          "includeAll": true,
-          "multi": true,
-          "name": "Dispatchers",
-          "options": [],
-          "query": "query_result(akka_actor_running_actors{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\"})",
-          "refresh": 1,
-          "regex": "/dispatcher=\"([^\"]+)/",
-          "tagValuesQuery": "",
-          "tagsQuery": "name",
-          "type": "query",
-          "useTags": false
+        "current": {},
+        "datasource": "Cinnamon Prometheus",
+        "hide": 0,
+        "includeAll": true,
+        "multi": true,
+        "name": "Not Applicable",
+        "options": [],
+        "query": "",
+        "refresh": 1,
+        "regex": "",
+        "tagValuesQuery": "",
+        "tagsQuery": "name",
+        "type": "query",
+        "useTags": false
       },
       {
-          "current": {},
-          "datasource": "Cinnamon Prometheus",
-          "hide": 0,
-          "includeAll": true,
-          "multi": true,
-          "name": "RemoteActors",
-          "options": [],
-          "query": "query_result(akka_actor_running_actors{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\"})",
-          "refresh": 1,
-          "regex": "/actor=\"([^\"]+)/",
-          "tagValuesQuery": "",
-          "tagsQuery": "name",
-          "type": "query",
-          "useTags": false
+        "current": {},
+        "datasource": "Cinnamon Prometheus",
+        "hide": 0,
+        "includeAll": true,
+        "multi": true,
+        "name": "Not Applicable",
+        "options": [],
+        "query": "",
+        "refresh": 1,
+        "regex": "",
+        "tagValuesQuery": "",
+        "tagsQuery": "name",
+        "type": "query",
+        "useTags": false
       },
       {
-          "current": {},
-          "datasource": "Cinnamon Prometheus",
-          "hide": 0,
-          "includeAll": true,
-          "multi": true,
-          "name": "MetricType",
-          "options": [],
-          "query": "label_values(akka_actor_mailbox_size, quantile)",
-          "refresh": 1,
-          "regex": "",
-          "tagValuesQuery": "",
-          "tagsQuery": "name",
-          "type": "query",
-          "useTags": false
+        "current": {},
+        "datasource": "Cinnamon Prometheus",
+        "hide": 0,
+        "includeAll": true,
+        "multi": true,
+        "name": "Not Applicable",
+        "options": [],
+        "query": "",
+        "refresh": 1,
+        "regex": "",
+        "tagValuesQuery": "",
+        "tagsQuery": "name",
+        "type": "query",
+        "useTags": false
       }
     ]
   },

@@ -16,7 +16,9 @@ object CinnamonAkkaStreamsDemo extends App {
 
   // simulate work
 
-  def delay(i: Int): Int = { Thread.sleep(i); i }
+  def delay(i: Int): Int = {
+    if (probability(0.1)) Thread.sleep(increase(i)) else Thread.sleep(i); i
+  }
 
   def random(min: Int, max: Int): Int = {
     val mean = (max + min) / 2.0
@@ -33,6 +35,8 @@ object CinnamonAkkaStreamsDemo extends App {
   // stage functions
 
   val generate = () => Iterator.continually(random(min = 1, max = 10))
+
+  val generateWithDelay = () => Iterator.continually(delay(random(min = 1, max = 10)))
 
   val one = (i: Int) => delay(i)
 
@@ -104,6 +108,17 @@ object CinnamonAkkaStreamsDemo extends App {
         .mapNamed("fifth.three")(three)
     }
   }.runWith(Sink.ignore)
+
+  RunnableGraph.fromGraph(GraphDSL.create() { implicit b =>
+    import GraphDSL.Implicits._
+    val source = Source.fromIterator(generateWithDelay)
+      .mapAsyncUnordered(4)(i => FutureNamed("sixth.one")(one(i)))
+    val balance = b.add(Balance[Int](2))
+    source ~> balance.in
+    balance.out(0) ~> Flow[Int].filter(two).mapAsyncUnordered(4)(i => FutureNamed("sixth.three.left")(three(increase(i)))).to(Sink.ignore)
+    balance.out(1) ~> Flow[Int].mapAsyncUnordered(4)(i => FutureNamed("sixth.three.right")(three(i))).to(Sink.ignore)
+    ClosedShape
+  }).instrumented(name = "sixth").run()
 
   println("Press enter to exit ...")
   System.in.read()

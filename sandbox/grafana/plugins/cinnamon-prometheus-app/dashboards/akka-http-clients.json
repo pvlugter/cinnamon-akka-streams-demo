@@ -1,6 +1,6 @@
 {
   "id": null,
-  "title": "Stopwatch Metrics",
+  "title": "Akka HTTP Clients",
   "tags": [],
   "style": "dark",
   "timezone": "browser",
@@ -53,14 +53,14 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "stopwatch_stopwatch_time_ns{host=~\"$Servers\", application=~\"$Applications\", stopwatch=~\"$StopwatchIdentifiers\", quantile=~\"$MetricType\"}",
+              "expr": "akka_http_client_pool_connections{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", client_pool=~\"$ClientPools\"}",
               "format": "time_series",
-              "legendFormat": "{{host}} / {{application}}"
+              "legendFormat": "{{host}} / {{client_pool}} / {{http_client}}"
             }
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Stopwatch Time: $MetricType",
+          "title": "Client Pool Connections",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -73,11 +73,11 @@
           },
           "yaxes": [
             {
-              "format": "ns",
+              "format": "short",
               "label": null,
               "logBase": 1,
               "max": null,
-              "min": null,
+              "min": 0,
               "show": true
             },
             {
@@ -89,7 +89,15 @@
               "show": true
             }
           ]
-        },
+        }
+      ]
+    },
+    {
+      "title": "",
+      "collapse": false,
+      "editable": true,
+      "height": "250px",
+      "panels": [
         {
           "aliasColors": {},
           "bars": false,
@@ -129,14 +137,14 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "irate(stopwatch_stopwatch_rate{host=~\"$Servers\", application=~\"$Applications\", stopwatch=~\"$StopwatchIdentifiers\"}[1m])",
+              "expr": "irate(akka_http_http_client_http_client_requests{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", client_pool=~\"$ClientPools\", http_client=~\"$Services\"}[1m])",
               "format": "time_series",
-              "legendFormat": "{{host}} / {{application}}"
+              "legendFormat": "{{host}} / {{client_pool}} / {{http_client}}"
             }
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Stopwatch Stops: 1min rate",
+          "title": "$Services request rate: 1 min",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -150,10 +158,10 @@
           "yaxes": [
             {
               "format": "ops",
-              "label": "messages/second",
+              "label": "ops/second",
               "logBase": 1,
               "max": null,
-              "min": null,
+              "min": 0,
               "show": true
             },
             {
@@ -165,15 +173,7 @@
               "show": true
             }
           ]
-        }
-      ]
-    },
-    {
-      "title": "",
-      "collapse": false,
-      "editable": true,
-      "height": "250px",
-      "panels": [
+        },
         {
           "aliasColors": {},
           "bars": false,
@@ -213,14 +213,24 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "irate(stopwatch_stopwatch_time_limit{host=~\"$Servers\", application=~\"$Applications\", stopwatch=~\"$StopwatchIdentifiers\"}[1m])",
+              "expr": "irate(akka_http_http_client_http_client_service_response_time_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", client_pool=~\"$ClientPools\", http_client=~\"$Services\", quantile=~\"0.99\"}[1m])",
               "format": "time_series",
-              "legendFormat": "{{host}} / {{application}}"
+              "legendFormat": "{{host}} / {{client_pool}} / {{http_client}} / p99"
+            },
+            {
+              "expr": "irate(akka_http_http_client_http_client_service_response_time_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", client_pool=~\"$ClientPools\", http_client=~\"$Services\", quantile=~\"0.95\"}[1m])",
+              "format": "time_series",
+              "legendFormat": "{{host}} / {{client_pool}} / {{http_client}} / p95"
+            },
+            {
+              "expr": "irate(akka_http_http_client_http_client_service_response_time_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", client_pool=~\"$ClientPools\", http_client=~\"$Services\", quantile=~\"0.5\"}[1m])",
+              "format": "time_series",
+              "legendFormat": "{{host}} / {{client_pool}} / {{http_client}} / p50"
             }
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Stopwatch Threshold Breaches: 1min rate",
+          "title": "$Services response time",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -233,11 +243,11 @@
           },
           "yaxes": [
             {
-              "format": "ops",
-              "label": "messages/second",
+              "format": "ns",
+              "label": null,
               "logBase": 1,
               "max": null,
-              "min": null,
+              "min": 0,
               "show": true
             },
             {
@@ -250,7 +260,8 @@
             }
           ]
         }
-      ]
+      ],
+      "repeat": "Services"
     }
   ],
   "time": {
@@ -308,7 +319,7 @@
           "multi": true,
           "name": "Applications",
           "options": [],
-          "query": "query_result(akka_actor_running_actors{host=~\"$Servers\"})",
+          "query": "query_result(akka_http_http_client_http_client_requests{host=~\"$Servers\"})",
           "refresh": 1,
           "regex": "/application=\"([^\"]+)/",
           "tagValuesQuery": "",
@@ -322,11 +333,11 @@
           "hide": 0,
           "includeAll": true,
           "multi": true,
-          "name": "StopwatchIdentifiers",
+          "name": "ActorSystems",
           "options": [],
-          "query": "query_result(stopwatch_stopwatch_rate{host=~\"$Servers\", application=~\"$Applications\"})",
+          "query": "query_result(akka_http_http_client_http_client_requests{host=~\"$Servers\", application=~\"$Applications\"})",
           "refresh": 1,
-          "regex": "/stopwatch=\"([^\"]+)/",
+          "regex": "/actor_system=\"([^\"]+)/",
           "tagValuesQuery": "",
           "tagsQuery": "name",
           "type": "query",
@@ -338,11 +349,27 @@
           "hide": 0,
           "includeAll": true,
           "multi": true,
-          "name": "MetricType",
+          "name": "ClientPools",
           "options": [],
-          "query": "label_values(akka_actor_mailbox_size, quantile)",
+          "query": "query_result(akka_http_http_client_http_client_requests{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\"})",
           "refresh": 1,
-          "regex": "",
+          "regex": "/client_pool=\"([^\"]+)/",
+          "tagValuesQuery": "",
+          "tagsQuery": "name",
+          "type": "query",
+          "useTags": false
+      },
+      {
+          "current": {},
+          "datasource": "Cinnamon Prometheus",
+          "hide": 0,
+          "includeAll": true,
+          "multi": true,
+          "name": "Services",
+          "options": [],
+          "query": "query_result(akka_http_http_client_http_client_requests{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\"})",
+          "refresh": 1,
+          "regex": "/http_client=\"([^\"]+)/",
           "tagValuesQuery": "",
           "tagsQuery": "name",
           "type": "query",

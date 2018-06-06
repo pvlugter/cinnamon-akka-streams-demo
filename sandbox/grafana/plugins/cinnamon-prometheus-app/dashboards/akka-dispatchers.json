@@ -1,6 +1,6 @@
 {
   "id": null,
-  "title": "Akka HTTP Servers",
+  "title": "Akka Dispatchers",
   "tags": [],
   "style": "dark",
   "timezone": "browser",
@@ -27,7 +27,7 @@
             "threshold2": null,
             "threshold2Color": "rgba(234, 112, 112, 0.22)"
           },
-          "id": 5,
+          "id": 3,
           "interval": "10s",
           "isNew": true,
           "legend": {
@@ -53,19 +53,14 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "irate(akka_http_http_server_requests{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", http_server=~\"$HttpServers\"}[1m])",
+              "expr": "akka_dispatcher_queue_time_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\", quantile=~\"$MetricType\"}",
               "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / {{http_server}} / requests"
-            },
-            {
-              "expr": "irate(akka_http_http_server_responses{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", http_server=~\"$HttpServers\"}[1m])",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / {{http_server}} / responses"
+              "legendFormat": "{{host}} / {{actor_system}} / {{dispatcher}}"
             }
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Requests/Responses: 1 min",
+          "title": "Queue time: $MetricType",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -78,11 +73,11 @@
           },
           "yaxes": [
             {
-              "format": "ops",
-              "label": "messages/second",
+              "format": "ns",
+              "label": null,
               "logBase": 1,
               "max": null,
-              "min": null,
+              "min": 0,
               "show": true
             },
             {
@@ -134,14 +129,14 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "",
+              "expr": "akka_dispatcher_processing_time_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\", quantile=~\"$MetricType\"}",
               "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / {{http_server}}"
+              "legendFormat": "{{host}} / {{actor_system}} / {{dispatcher}}"
             }
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Requests/Responses: 15 min",
+          "title": "Processing time: $MetricType",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -154,87 +149,11 @@
           },
           "yaxes": [
             {
-              "format": "ops",
-              "label": "messages/second",
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            },
-            {
-              "format": "short",
+              "format": "ns",
               "label": null,
               "logBase": 1,
               "max": null,
-              "min": null,
-              "show": true
-            }
-          ]
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "datasource": "Cinnamon Prometheus",
-          "editable": true,
-          "error": false,
-          "fill": 1,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
-          "id": 9,
-          "interval": "10s",
-          "isNew": true,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": false,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 2,
-          "links": [],
-          "nullPointMode": "null",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "span": 6,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "irate(akka_http_http_server_connections{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", http_server=~\"$HttpServers\"}[1m])",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / {{http_server}}"
-            }
-          ],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Connections: 1 min",
-          "tooltip": {
-            "msResolution": false,
-            "shared": true,
-            "value_type": "cumulative",
-            "sort": 0
-          },
-          "type": "graph",
-          "xaxis": {
-            "show": true
-          },
-          "yaxes": [
-            {
-              "format": "ops",
-              "label": "connections/second",
-              "logBase": 1,
-              "max": null,
-              "min": null,
+              "min": 0,
               "show": true
             },
             {
@@ -268,7 +187,7 @@
             "threshold2": null,
             "threshold2Color": "rgba(234, 112, 112, 0.22)"
           },
-          "id": 3,
+          "id": 5,
           "interval": "10s",
           "isNew": true,
           "legend": {
@@ -294,14 +213,14 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "irate(akka_http_http_server_responses_2xx{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", http_server=~\"$HttpServers\"}[1m])",
+              "expr": "akka_dispatcher_queue_size{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\"}",
               "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / {{http_server}}"
+              "legendFormat": "{{host}} / {{actor_system}} / {{dispatcher}}"
             }
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Response Rate 2xx: 1 min",
+          "title": "Queue Size",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -314,11 +233,11 @@
           },
           "yaxes": [
             {
-              "format": "ops",
-              "label": "messages/second",
+              "format": "short",
+              "label": null,
               "logBase": 1,
               "max": null,
-              "min": null,
+              "min": 0,
               "show": true
             },
             {
@@ -370,24 +289,14 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "irate(akka_http_http_server_response_time_2xx_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", http_server=~\"$HttpServers\", quantile=~\"0.99\"}[1m])",
+              "expr": "akka_dispatcher_processing{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\"}",
               "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / {{http_server}} / p99"
-            },
-            {
-              "expr": "irate(akka_http_http_server_response_time_2xx_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", http_server=~\"$HttpServers\", quantile=~\"0.95\"}[1m])",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / {{http_server}} / p95"
-            },
-            {
-              "expr": "irate(akka_http_http_server_response_time_2xx_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", http_server=~\"$HttpServers\", quantile=~\"0.5\"}[1m])",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / {{http_server}} / p50"
+              "legendFormat": "{{host}} / {{actor_system}} / {{dispatcher}}"
             }
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Response Time 2xx",
+          "title": "Processing",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -399,182 +308,12 @@
             "show": true
           },
           "yaxes": [
-            {
-              "format": "ns",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            },
             {
               "format": "short",
               "label": null,
               "logBase": 1,
               "max": null,
-              "min": null,
-              "show": true
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "title": "",
-      "collapse": false,
-      "editable": true,
-      "height": "250px",
-      "panels": [
-        {
-          "aliasColors": {},
-          "bars": false,
-          "datasource": "Cinnamon Prometheus",
-          "editable": true,
-          "error": false,
-          "fill": 1,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
-          "id": 2,
-          "interval": "10s",
-          "isNew": true,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": false,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 2,
-          "links": [],
-          "nullPointMode": "null",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "span": 6,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "irate(akka_http_http_server_responses_4xx{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", http_server=~\"$HttpServers\"}[1m])",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / {{http_server}}"
-            }
-          ],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Response Rate 4xx: 1 min",
-          "tooltip": {
-            "msResolution": false,
-            "shared": true,
-            "value_type": "cumulative",
-            "sort": 0
-          },
-          "type": "graph",
-          "xaxis": {
-            "show": true
-          },
-          "yaxes": [
-            {
-              "format": "ops",
-              "label": "messages/second",
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ]
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "datasource": "Cinnamon Prometheus",
-          "editable": true,
-          "error": false,
-          "fill": 1,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
-          "id": 1,
-          "interval": "10s",
-          "isNew": true,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": false,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 2,
-          "links": [],
-          "nullPointMode": "null",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "span": 6,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "irate(akka_http_http_server_response_time_4xx_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", http_server=~\"$HttpServers\", quantile=~\"0.99\"}[1m])",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / {{http_server}} / p99"
-            },
-            {
-              "expr": "irate(akka_http_http_server_response_time_4xx_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", http_server=~\"$HttpServers\", quantile=~\"0.95\"}[1m])",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / {{http_server}} / p95"
-            },
-            {
-              "expr": "irate(akka_http_http_server_response_time_4xx_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", http_server=~\"$HttpServers\", quantile=~\"0.5\"}[1m])",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / {{http_server}} / p50"
-            }
-          ],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Response Time 4xx",
-          "tooltip": {
-            "msResolution": false,
-            "shared": true,
-            "value_type": "cumulative",
-            "sort": 0
-          },
-          "type": "graph",
-          "xaxis": {
-            "show": true
-          },
-          "yaxes": [
-            {
-              "format": "ns",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
+              "min": 0,
               "show": true
             },
             {
@@ -634,14 +373,14 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "irate(akka_http_http_server_responses_5xx{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", http_server=~\"$HttpServers\"}[1m])",
+              "expr": "akka_dispatcher_pool_size{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\"}",
               "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / {{http_server}}"
+              "legendFormat": "{{host}} / {{actor_system}} / {{dispatcher}}"
             }
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Response Rate 5xx: 1 min",
+          "title": "Pool Size",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -654,11 +393,11 @@
           },
           "yaxes": [
             {
-              "format": "ops",
-              "label": "messages/second",
+              "format": "short",
+              "label": null,
               "logBase": 1,
               "max": null,
-              "min": null,
+              "min": 0,
               "show": true
             },
             {
@@ -710,24 +449,14 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "irate(akka_http_http_server_response_time_5xx_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", http_server=~\"$HttpServers\", quantile=~\"0.99\"}[1m])",
+              "expr": "akka_dispatcher_active_threads{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\"}",
               "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / {{http_server}} / p99"
-            },
-            {
-              "expr": "irate(akka_http_http_server_response_time_5xx_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", http_server=~\"$HttpServers\", quantile=~\"0.95\"}[1m])",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / {{http_server}} / p95"
-            },
-            {
-              "expr": "irate(akka_http_http_server_response_time_5xx_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", http_server=~\"$HttpServers\", quantile=~\"0.5\"}[1m])",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / {{http_server}} / p50"
+              "legendFormat": "{{host}} / {{actor_system}} / {{dispatcher}}"
             }
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Response Time 5xx",
+          "title": "Active Threads",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -740,11 +469,171 @@
           },
           "yaxes": [
             {
-              "format": "ns",
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
               "label": null,
               "logBase": 1,
               "max": null,
               "min": null,
+              "show": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "",
+      "collapse": false,
+      "editable": true,
+      "height": "250px",
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "Cinnamon Prometheus",
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 1,
+          "interval": "10s",
+          "isNew": true,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 6,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "akka_dispatcher_running_threads{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\"}",
+              "format": "time_series",
+              "legendFormat": "{{host}} / {{actor_system}} / {{dispatcher}}"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Running Threads",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "value_type": "cumulative",
+            "sort": 0
+          },
+          "type": "graph",
+          "xaxis": {
+            "show": true
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "Cinnamon Prometheus",
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 2,
+          "interval": "10s",
+          "isNew": true,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 6,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "akka_dispatcher_parallelism{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\"}",
+              "format": "time_series",
+              "legendFormat": "{{host}} / {{actor_system}} / {{dispatcher}}"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Parallelism",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "value_type": "cumulative",
+            "sort": 0
+          },
+          "type": "graph",
+          "xaxis": {
+            "show": true
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": 0,
               "show": true
             },
             {
@@ -815,7 +704,7 @@
           "multi": true,
           "name": "Applications",
           "options": [],
-          "query": "query_result(akka_http_http_server_connections{host=~\"$Servers\"})",
+          "query": "query_result(akka_actor_running_actors{host=~\"$Servers\"})",
           "refresh": 1,
           "regex": "/application=\"([^\"]+)/",
           "tagValuesQuery": "",
@@ -831,7 +720,7 @@
           "multi": true,
           "name": "ActorSystems",
           "options": [],
-          "query": "query_result(akka_http_http_server_connections{host=~\"$Servers\", application=~\"$Applications\"})",
+          "query": "query_result(akka_actor_running_actors{host=~\"$Servers\", application=~\"$Applications\"})",
           "refresh": 1,
           "regex": "/actor_system=\"([^\"]+)/",
           "tagValuesQuery": "",
@@ -845,11 +734,27 @@
           "hide": 0,
           "includeAll": true,
           "multi": true,
-          "name": "HttpServers",
+          "name": "Dispatchers",
           "options": [],
-          "query": "query_result(akka_http_http_server_connections{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\"})",
+          "query": "query_result(akka_actor_running_actors{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\"})",
           "refresh": 1,
-          "regex": "/http_server=\"([^\"]+)/",
+          "regex": "/dispatcher=\"([^\"]+)/",
+          "tagValuesQuery": "",
+          "tagsQuery": "name",
+          "type": "query",
+          "useTags": false
+      },
+      {
+          "current": {},
+          "datasource": "Cinnamon Prometheus",
+          "hide": 0,
+          "includeAll": true,
+          "multi": true,
+          "name": "MetricType",
+          "options": [],
+          "query": "label_values(akka_actor_mailbox_size, quantile)",
+          "refresh": 1,
+          "regex": "",
           "tagValuesQuery": "",
           "tagsQuery": "name",
           "type": "query",

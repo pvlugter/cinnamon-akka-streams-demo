@@ -1,6 +1,6 @@
 {
   "id": null,
-  "title": "Akka HTTP Clients",
+  "title": "Play Endpoints",
   "tags": [],
   "style": "dark",
   "timezone": "browser",
@@ -53,14 +53,14 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "akka_http_client_pool_connections{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", client_pool=~\"$ClientPools\"}",
+              "expr": "irate(akka_http_request_path_endpoint_responses{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", http_server=~\"$HttpServers\", request_path=~\"$Endpoints\"}[1m])",
               "format": "time_series",
-              "legendFormat": "{{host}} / {{client_pool}} / {{http_client}}"
+              "legendFormat": "{{host}} / {{http_server}} / {{request_path}}"
             }
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Client Pool Connections",
+          "title": "$Endpoints response rate: 1 min",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -73,11 +73,11 @@
           },
           "yaxes": [
             {
-              "format": "short",
-              "label": null,
+              "format": "ops",
+              "label": "ops/second",
               "logBase": 1,
               "max": null,
-              "min": null,
+              "min": 0,
               "show": true
             },
             {
@@ -89,15 +89,7 @@
               "show": true
             }
           ]
-        }
-      ]
-    },
-    {
-      "title": "",
-      "collapse": false,
-      "editable": true,
-      "height": "250px",
-      "panels": [
+        },
         {
           "aliasColors": {},
           "bars": false,
@@ -137,100 +129,14 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "irate(akka_http_http_client_http_client_requests{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", client_pool=~\"$ClientPools\", http_client=~\"$Services\"}[1m])",
+              "expr": "akka_http_request_path_endpoint_response_time_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", http_server=~\"$HttpServers\", request_path=~\"$Endpoints\", quantile=~\"0.99\"}",
               "format": "time_series",
-              "legendFormat": "{{host}} / {{client_pool}} / {{http_client}}"
+              "legendFormat": "{{host}} / {{http_server}} / {{request_path}}"
             }
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "$Services request rate: 1 min",
-          "tooltip": {
-            "msResolution": false,
-            "shared": true,
-            "value_type": "cumulative",
-            "sort": 0
-          },
-          "type": "graph",
-          "xaxis": {
-            "show": true
-          },
-          "yaxes": [
-            {
-              "format": "ops",
-              "label": "ops/second",
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ]
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "datasource": "Cinnamon Prometheus",
-          "editable": true,
-          "error": false,
-          "fill": 1,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
-          "id": 3,
-          "interval": "10s",
-          "isNew": true,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": false,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 2,
-          "links": [],
-          "nullPointMode": "null",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "span": 6,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "irate(akka_http_http_client_http_client_service_response_time_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", client_pool=~\"$ClientPools\", http_client=~\"$Services\", quantile=~\"0.99\"}[1m])",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{client_pool}} / {{http_client}} / p99"
-            },
-            {
-              "expr": "irate(akka_http_http_client_http_client_service_response_time_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", client_pool=~\"$ClientPools\", http_client=~\"$Services\", quantile=~\"0.95\"}[1m])",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{client_pool}} / {{http_client}} / p95"
-            },
-            {
-              "expr": "irate(akka_http_http_client_http_client_service_response_time_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", client_pool=~\"$ClientPools\", http_client=~\"$Services\", quantile=~\"0.5\"}[1m])",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{client_pool}} / {{http_client}} / p50"
-            }
-          ],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "$Services response time",
+          "title": "$Endpoints response time",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -247,7 +153,7 @@
               "label": null,
               "logBase": 1,
               "max": null,
-              "min": null,
+              "min": 0,
               "show": true
             },
             {
@@ -261,7 +167,7 @@
           ]
         }
       ],
-      "repeat": "Services"
+      "repeat": "Endpoints"
     }
   ],
   "time": {
@@ -319,7 +225,7 @@
           "multi": true,
           "name": "Applications",
           "options": [],
-          "query": "query_result(akka_http_http_client_http_client_requests{host=~\"$Servers\"})",
+          "query": "query_result(akka_http_http_server_connections{host=~\"$Servers\"})",
           "refresh": 1,
           "regex": "/application=\"([^\"]+)/",
           "tagValuesQuery": "",
@@ -335,7 +241,7 @@
           "multi": true,
           "name": "ActorSystems",
           "options": [],
-          "query": "query_result(akka_http_http_client_http_client_requests{host=~\"$Servers\", application=~\"$Applications\"})",
+          "query": "query_result(akka_http_http_server_connections{host=~\"$Servers\", application=~\"$Applications\"})",
           "refresh": 1,
           "regex": "/actor_system=\"([^\"]+)/",
           "tagValuesQuery": "",
@@ -349,11 +255,11 @@
           "hide": 0,
           "includeAll": true,
           "multi": true,
-          "name": "ClientPools",
+          "name": "HttpServers",
           "options": [],
-          "query": "query_result(akka_http_http_client_http_client_requests{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\"})",
+          "query": "query_result(akka_http_http_server_connections{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\"})",
           "refresh": 1,
-          "regex": "/client_pool=\"([^\"]+)/",
+          "regex": "/http_server=\"([^\"]+)/",
           "tagValuesQuery": "",
           "tagsQuery": "name",
           "type": "query",
@@ -365,11 +271,11 @@
           "hide": 0,
           "includeAll": true,
           "multi": true,
-          "name": "Services",
+          "name": "Endpoints",
           "options": [],
-          "query": "query_result(akka_http_http_client_http_client_requests{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\"})",
+          "query": "query_result(akka_http_request_path_endpoint_responses{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", http_server=~\"$HttpServers\"})",
           "refresh": 1,
-          "regex": "/http_client=\"([^\"]+)/",
+          "regex": "/request_path=\"([^\"]+)/",
           "tagValuesQuery": "",
           "tagsQuery": "name",
           "type": "query",

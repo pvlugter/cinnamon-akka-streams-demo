@@ -1,6 +1,6 @@
 {
   "id": null,
-  "title": "Akka Dispatchers",
+  "title": "Akka Events",
   "tags": [],
   "style": "dark",
   "timezone": "browser",
@@ -27,7 +27,7 @@
             "threshold2": null,
             "threshold2Color": "rgba(234, 112, 112, 0.22)"
           },
-          "id": 3,
+          "id": 2,
           "interval": "10s",
           "isNew": true,
           "legend": {
@@ -53,14 +53,14 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "akka_dispatcher_queue_time_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\", quantile=~\"$MetricType\"}",
+              "expr": "irate(akka_actor_actor_failure{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\", actor=~\"$Actors\"}[$Rates])",
               "format": "time_series",
-              "legendFormat": "{{host}} / {{actor_system}} / {{dispatcher}}"
+              "legendFormat": "{{host}} / {{dispatcher}} / {{actor}}"
             }
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Queue time: $MetricType",
+          "title": "Failure Events: $Rates",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -73,11 +73,11 @@
           },
           "yaxes": [
             {
-              "format": "ns",
-              "label": null,
+              "format": "ops",
+              "label": "events/second",
               "logBase": 1,
               "max": null,
-              "min": null,
+              "min": 0,
               "show": true
             },
             {
@@ -103,7 +103,7 @@
             "threshold2": null,
             "threshold2Color": "rgba(234, 112, 112, 0.22)"
           },
-          "id": 7,
+          "id": 4,
           "interval": "10s",
           "isNew": true,
           "legend": {
@@ -129,14 +129,14 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "akka_dispatcher_processing_time_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\", quantile=~\"$MetricType\"}",
+              "expr": "irate(akka_actor_dead_letter{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\", actor=~\"$Actors\"}[$Rates])",
               "format": "time_series",
-              "legendFormat": "{{host}} / {{actor_system}} / {{dispatcher}}"
+              "legendFormat": "{{host}} / {{dispatcher}} / {{actor}}"
             }
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Processing time: $MetricType",
+          "title": "Deadletters: $Rates",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -149,11 +149,11 @@
           },
           "yaxes": [
             {
-              "format": "ns",
-              "label": null,
+              "format": "ops",
+              "label": "events/second",
               "logBase": 1,
               "max": null,
-              "min": null,
+              "min": 0,
               "show": true
             },
             {
@@ -213,14 +213,14 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "akka_dispatcher_queue_size{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\"}",
+              "expr": "irate(akka_actor_unhandled_message{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\", actor=~\"$Actors\"}[$Rates])",
               "format": "time_series",
-              "legendFormat": "{{host}} / {{actor_system}} / {{dispatcher}}"
+              "legendFormat": "{{host}} / {{dispatcher}} / {{actor}}"
             }
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Queue Size",
+          "title": "Unhandled Messages: $Rates",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -233,11 +233,11 @@
           },
           "yaxes": [
             {
-              "format": "short",
-              "label": null,
+              "format": "ops",
+              "label": "events/second",
               "logBase": 1,
               "max": null,
-              "min": null,
+              "min": 0,
               "show": true
             },
             {
@@ -250,6 +250,174 @@
             }
           ]
         },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "Cinnamon Prometheus",
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 9,
+          "interval": "10s",
+          "isNew": true,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 6,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "irate(akka_actor_log_error{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\", actor=~\"$Actors\"}[$Rates])",
+              "format": "time_series",
+              "legendFormat": "{{host}} / {{dispatcher}} / {{actor}}"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Log Errors: $Rates",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "value_type": "cumulative",
+            "sort": 0
+          },
+          "type": "graph",
+          "xaxis": {
+            "show": true
+          },
+          "yaxes": [
+            {
+              "format": "ops",
+              "label": "events/second",
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "",
+      "collapse": false,
+      "editable": true,
+      "height": "250px",
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "Cinnamon Prometheus",
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 3,
+          "interval": "10s",
+          "isNew": true,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 6,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "irate(akka_actor_log_warning{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\", actor=~\"$Actors\"}[$Rates])",
+              "format": "time_series",
+              "legendFormat": "{{host}} / {{dispatcher}} / {{actor}}"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Log Warnings: $Rates",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "value_type": "cumulative",
+            "sort": 0
+          },
+          "type": "graph",
+          "xaxis": {
+            "show": true
+          },
+          "yaxes": [
+            {
+              "format": "ops",
+              "label": "events/second",
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "",
+      "collapse": false,
+      "editable": true,
+      "height": "250px",
+      "panels": [
         {
           "aliasColors": {},
           "bars": false,
@@ -289,14 +457,14 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "akka_dispatcher_processing{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\"}",
+              "expr": "irate(akka_actor_mailbox_size_limit{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\", actor=~\"$Actors\"}[$Rates])",
               "format": "time_series",
-              "legendFormat": "{{host}} / {{actor_system}} / {{dispatcher}}"
+              "legendFormat": "{{host}} / {{dispatcher}} / {{actor}}"
             }
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Processing",
+          "title": "Mailbox Size Breaches: $Rates",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -309,95 +477,11 @@
           },
           "yaxes": [
             {
-              "format": "short",
-              "label": null,
+              "format": "ops",
+              "label": "breaches/second",
               "logBase": 1,
               "max": null,
-              "min": null,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "title": "",
-      "collapse": false,
-      "editable": true,
-      "height": "250px",
-      "panels": [
-        {
-          "aliasColors": {},
-          "bars": false,
-          "datasource": "Cinnamon Prometheus",
-          "editable": true,
-          "error": false,
-          "fill": 1,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
-          "id": 4,
-          "interval": "10s",
-          "isNew": true,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": false,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 2,
-          "links": [],
-          "nullPointMode": "null",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "span": 6,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "akka_dispatcher_pool_size{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\"}",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{actor_system}} / {{dispatcher}}"
-            }
-          ],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Pool Size",
-          "tooltip": {
-            "msResolution": false,
-            "shared": true,
-            "value_type": "cumulative",
-            "sort": 0
-          },
-          "type": "graph",
-          "xaxis": {
-            "show": true
-          },
-          "yaxes": [
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
+              "min": 0,
               "show": true
             },
             {
@@ -449,14 +533,14 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "akka_dispatcher_active_threads{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\"}",
+              "expr": "irate(akka_actor_mailbox_time_limit{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\", actor=~\"$Actors\"}[$Rates])",
               "format": "time_series",
-              "legendFormat": "{{host}} / {{actor_system}} / {{dispatcher}}"
+              "legendFormat": "{{host}} / {{dispatcher}} / {{actor}}"
             }
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Active Threads",
+          "title": "Mailbox Time Breaches: $Rates",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -469,11 +553,11 @@
           },
           "yaxes": [
             {
-              "format": "short",
-              "label": null,
+              "format": "ops",
+              "label": "breaches/second",
               "logBase": 1,
               "max": null,
-              "min": null,
+              "min": 0,
               "show": true
             },
             {
@@ -494,6 +578,82 @@
       "editable": true,
       "height": "250px",
       "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "Cinnamon Prometheus",
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 7,
+          "interval": "10s",
+          "isNew": true,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 6,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "irate(akka_actor_processing_time_limit{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\", actor=~\"$Actors\"}[$Rates])",
+              "format": "time_series",
+              "legendFormat": "{{host}} / {{dispatcher}} / {{actor}}"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Processing Time Breaches: $Rates",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "value_type": "cumulative",
+            "sort": 0
+          },
+          "type": "graph",
+          "xaxis": {
+            "show": true
+          },
+          "yaxes": [
+            {
+              "format": "ops",
+              "label": "breaches/second",
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        },
         {
           "aliasColors": {},
           "bars": false,
@@ -533,14 +693,14 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "akka_dispatcher_running_threads{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\"}",
+              "expr": "irate(akka_actor_stash_size_limit{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\", actor=~\"$Actors\"}[$Rates])",
               "format": "time_series",
-              "legendFormat": "{{host}} / {{actor_system}} / {{dispatcher}}"
+              "legendFormat": "{{host}} / {{dispatcher}} / {{actor}}"
             }
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Running Threads",
+          "title": "Stash Size Breaches: $Rates",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -553,87 +713,11 @@
           },
           "yaxes": [
             {
-              "format": "short",
-              "label": null,
+              "format": "ops",
+              "label": "breaches/second",
               "logBase": 1,
               "max": null,
-              "min": null,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ]
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "datasource": "Cinnamon Prometheus",
-          "editable": true,
-          "error": false,
-          "fill": 1,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
-          "id": 2,
-          "interval": "10s",
-          "isNew": true,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": false,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 2,
-          "links": [],
-          "nullPointMode": "null",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "span": 6,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "akka_dispatcher_parallelism{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\"}",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{actor_system}} / {{dispatcher}}"
-            }
-          ],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Parallelism",
-          "tooltip": {
-            "msResolution": false,
-            "shared": true,
-            "value_type": "cumulative",
-            "sort": 0
-          },
-          "type": "graph",
-          "xaxis": {
-            "show": true
-          },
-          "yaxes": [
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
+              "min": 0,
               "show": true
             },
             {
@@ -750,14 +834,40 @@
           "hide": 0,
           "includeAll": true,
           "multi": true,
-          "name": "MetricType",
+          "name": "Actors",
           "options": [],
-          "query": "label_values(akka_actor_mailbox_size, quantile)",
+          "query": "query_result(akka_actor_running_actors{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\"})",
           "refresh": 1,
-          "regex": "",
+          "regex": "/actor=\"([^\"]+)/",
           "tagValuesQuery": "",
           "tagsQuery": "name",
           "type": "query",
+          "useTags": false
+      },
+      {
+          "current": {
+            "tags": [],
+            "text": "m1_rate",
+            "value": "1m"
+          },
+          "datasource": "Cinnamon Prometheus",
+          "hide": 0,
+          "includeAll": false,
+          "multi": false,
+          "name": "Rates",
+          "options": [
+            {
+              "selected": true,
+              "text": "m1_rate",
+              "value": "1m"
+            }
+          ],
+          "query": "",
+          "refresh": 0,
+          "regex": "",
+          "tagValuesQuery": "",
+          "tagsQuery": "name",
+          "type": "custom",
           "useTags": false
       }
     ]

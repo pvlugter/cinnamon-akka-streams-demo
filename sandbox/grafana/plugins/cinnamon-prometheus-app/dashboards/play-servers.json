@@ -1,6 +1,6 @@
 {
   "id": null,
-  "title": "JVM Metrics",
+  "title": "Play Servers",
   "tags": [],
   "style": "dark",
   "timezone": "browser",
@@ -14,6 +14,87 @@
       "editable": true,
       "height": "250px",
       "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "Cinnamon Prometheus",
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 5,
+          "interval": "10s",
+          "isNew": true,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 6,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "irate(akka_http_http_server_requests{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", http_server=~\"$HttpServers\"}[1m])",
+              "format": "time_series",
+              "legendFormat": "{{host}} / {{application}} / {{http_server}} / requests"
+            },
+            {
+              "expr": "irate(akka_http_http_server_responses{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", http_server=~\"$HttpServers\"}[1m])",
+              "format": "time_series",
+              "legendFormat": "{{host}} / {{application}} / {{http_server}} / responses"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Requests/Responses: 1 min",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "value_type": "cumulative",
+            "sort": 0
+          },
+          "type": "graph",
+          "xaxis": {
+            "show": true
+          },
+          "yaxes": [
+            {
+              "format": "ops",
+              "label": "messages/second",
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        },
         {
           "aliasColors": {},
           "bars": false,
@@ -53,29 +134,14 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "jvm_heap_committed{host=~\"$Servers\", application=~\"$Applications\"}",
+              "expr": "",
               "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / heap_committed"
-            },
-            {
-              "expr": "jvm_heap_init{host=~\"$Servers\", application=~\"$Applications\"}",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / heap_init"
-            },
-            {
-              "expr": "jvm_heap_max{host=~\"$Servers\", application=~\"$Applications\"}",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / heap_max"
-            },
-            {
-              "expr": "jvm_heap_used{host=~\"$Servers\", application=~\"$Applications\"}",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / heap_used"
+              "legendFormat": "{{host}} / {{application}} / {{http_server}}"
             }
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Heap",
+          "title": "Requests/Responses: 15 min",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -88,11 +154,171 @@
           },
           "yaxes": [
             {
-              "format": "bytes",
+              "format": "ops",
+              "label": "messages/second",
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
               "label": null,
               "logBase": 1,
               "max": null,
               "min": null,
+              "show": true
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "Cinnamon Prometheus",
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 9,
+          "interval": "10s",
+          "isNew": true,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 6,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "irate(akka_http_http_server_connections{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", http_server=~\"$HttpServers\"}[1m])",
+              "format": "time_series",
+              "legendFormat": "{{host}} / {{application}} / {{http_server}}"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Connections: 1 min",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "value_type": "cumulative",
+            "sort": 0
+          },
+          "type": "graph",
+          "xaxis": {
+            "show": true
+          },
+          "yaxes": [
+            {
+              "format": "ops",
+              "label": "connections/second",
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "",
+      "collapse": false,
+      "editable": true,
+      "height": "250px",
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "Cinnamon Prometheus",
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 3,
+          "interval": "10s",
+          "isNew": true,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 6,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "irate(akka_http_http_server_responses_2xx{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", http_server=~\"$HttpServers\"}[1m])",
+              "format": "time_series",
+              "legendFormat": "{{host}} / {{application}} / {{http_server}}"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Response Rate 2xx: 1 min",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "value_type": "cumulative",
+            "sort": 0
+          },
+          "type": "graph",
+          "xaxis": {
+            "show": true
+          },
+          "yaxes": [
+            {
+              "format": "ops",
+              "label": "messages/second",
+              "logBase": 1,
+              "max": null,
+              "min": 0,
               "show": true
             },
             {
@@ -144,29 +370,24 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "jvm_non_heap_committed",
+              "expr": "irate(akka_http_http_server_response_time_2xx_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", http_server=~\"$HttpServers\", quantile=~\"0.99\"}[1m])",
               "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / non_heap_committed"
+              "legendFormat": "{{host}} / {{application}} / {{http_server}} / p99"
             },
             {
-              "expr": "jvm_non_heap_init",
+              "expr": "irate(akka_http_http_server_response_time_2xx_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", http_server=~\"$HttpServers\", quantile=~\"0.95\"}[1m])",
               "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / non_heap_init"
+              "legendFormat": "{{host}} / {{application}} / {{http_server}} / p95"
             },
             {
-              "expr": "jvm_non_heap_max",
+              "expr": "irate(akka_http_http_server_response_time_2xx_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", http_server=~\"$HttpServers\", quantile=~\"0.5\"}[1m])",
               "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / non_heap_max"
-            },
-            {
-              "expr": "jvm_non_heap_used",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / non_heap_used"
+              "legendFormat": "{{host}} / {{application}} / {{http_server}} / p50"
             }
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Non Heap",
+          "title": "Response Time 2xx",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -179,110 +400,11 @@
           },
           "yaxes": [
             {
-              "format": "bytes",
+              "format": "ns",
               "label": null,
               "logBase": 1,
               "max": null,
-              "min": null,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "title": "",
-      "collapse": false,
-      "editable": true,
-      "height": "250px",
-      "panels": [
-        {
-          "aliasColors": {},
-          "bars": false,
-          "datasource": "Cinnamon Prometheus",
-          "editable": true,
-          "error": false,
-          "fill": 1,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
-          "id": 4,
-          "interval": "10s",
-          "isNew": true,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": false,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 2,
-          "links": [],
-          "nullPointMode": "null",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "span": 6,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "jvm_total_committed",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / total_heap_committed"
-            },
-            {
-              "expr": "jvm_total_init",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / total_heap_init"
-            },
-            {
-              "expr": "jvm_total_max",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / total_heap_max"
-            },
-            {
-              "expr": "jvm_total_used",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / total_heap_used"
-            }
-          ],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Total Heap",
-          "tooltip": {
-            "msResolution": false,
-            "shared": true,
-            "value_type": "cumulative",
-            "sort": 0
-          },
-          "type": "graph",
-          "xaxis": {
-            "show": true
-          },
-          "yaxes": [
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
+              "min": 0,
               "show": true
             },
             {
@@ -342,19 +464,14 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "jvm_PS_MarkSweep_time",
+              "expr": "irate(akka_http_http_server_responses_4xx{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", http_server=~\"$HttpServers\"}[1m])",
               "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / PS_MarkSweep"
-            },
-            {
-              "expr": "jvm_PS_Scavenge_time",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / PS_Scavenge"
+              "legendFormat": "{{host}} / {{application}} / {{http_server}}"
             }
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "GC Time",
+          "title": "Response Rate 4xx: 1 min",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -367,201 +484,11 @@
           },
           "yaxes": [
             {
-              "format": "ms",
-              "label": null,
+              "format": "ops",
+              "label": "messages/second",
               "logBase": 1,
               "max": null,
-              "min": null,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ]
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "datasource": "Cinnamon Prometheus",
-          "editable": true,
-          "error": false,
-          "fill": 1,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
-          "id": 3,
-          "interval": "10s",
-          "isNew": true,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": false,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 2,
-          "links": [],
-          "nullPointMode": "null",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "span": 6,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "jvm_PS_MarkSweep_count",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / PS_MarkSweep"
-            },
-            {
-              "expr": "jvm_PS_Scavenge_count",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / PS_Scavenge"
-            }
-          ],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "GC Count",
-          "tooltip": {
-            "msResolution": false,
-            "shared": true,
-            "value_type": "cumulative",
-            "sort": 0
-          },
-          "type": "graph",
-          "xaxis": {
-            "show": true
-          },
-          "yaxes": [
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "title": "",
-      "collapse": false,
-      "editable": true,
-      "height": "250px",
-      "panels": [
-        {
-          "aliasColors": {},
-          "bars": false,
-          "datasource": "Cinnamon Prometheus",
-          "editable": true,
-          "error": false,
-          "fill": 1,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
-          "id": 5,
-          "interval": "10s",
-          "isNew": true,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": false,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 2,
-          "links": [],
-          "nullPointMode": "null",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "span": 6,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "jvm_pools_Code_Cache_usage",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / Code-Cache"
-            },
-            {
-              "expr": "jvm_pools_Compressed_Class_Space_usage",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / Compressed-Class-Space"
-            },
-            {
-              "expr": "jvm_pools_Metaspace_usage",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / Metaspace"
-            },
-            {
-              "expr": "jvm_pools_PS_Eden_Space_usage",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / PS-Eden-Space"
-            },
-            {
-              "expr": "jvm_pools_PS_Old_Gen_usage",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / PS-Old-Gen"
-            },
-            {
-              "expr": "jvm_pools_PS_Survivor_Space_usage",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / PS-Survivor-Space"
-            }
-          ],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Memory Pools",
-          "tooltip": {
-            "msResolution": false,
-            "shared": true,
-            "value_type": "cumulative",
-            "sort": 0
-          },
-          "type": "graph",
-          "xaxis": {
-            "show": true
-          },
-          "yaxes": [
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
+              "min": 0,
               "show": true
             },
             {
@@ -613,19 +540,24 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "jvm_loaded",
+              "expr": "irate(akka_http_http_server_response_time_4xx_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", http_server=~\"$HttpServers\", quantile=~\"0.99\"}[1m])",
               "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / loaded"
+              "legendFormat": "{{host}} / {{application}} / {{http_server}} / p99"
             },
             {
-              "expr": "jvm_unloaded",
+              "expr": "irate(akka_http_http_server_response_time_4xx_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", http_server=~\"$HttpServers\", quantile=~\"0.95\"}[1m])",
               "format": "time_series",
-              "legendFormat": "{{host}} / {{application}} / unloaded"
+              "legendFormat": "{{host}} / {{application}} / {{http_server}} / p95"
+            },
+            {
+              "expr": "irate(akka_http_http_server_response_time_4xx_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", http_server=~\"$HttpServers\", quantile=~\"0.5\"}[1m])",
+              "format": "time_series",
+              "legendFormat": "{{host}} / {{application}} / {{http_server}} / p50"
             }
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Class Loading",
+          "title": "Response Time 4xx",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -638,11 +570,181 @@
           },
           "yaxes": [
             {
+              "format": "ns",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
               "format": "short",
               "label": null,
               "logBase": 1,
               "max": null,
               "min": null,
+              "show": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "",
+      "collapse": false,
+      "editable": true,
+      "height": "250px",
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "Cinnamon Prometheus",
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 4,
+          "interval": "10s",
+          "isNew": true,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 6,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "irate(akka_http_http_server_responses_5xx{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", http_server=~\"$HttpServers\"}[1m])",
+              "format": "time_series",
+              "legendFormat": "{{host}} / {{application}} / {{http_server}}"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Response Rate 5xx: 1 min",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "value_type": "cumulative",
+            "sort": 0
+          },
+          "type": "graph",
+          "xaxis": {
+            "show": true
+          },
+          "yaxes": [
+            {
+              "format": "ops",
+              "label": "messages/second",
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "Cinnamon Prometheus",
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 8,
+          "interval": "10s",
+          "isNew": true,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 6,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "irate(akka_http_http_server_response_time_5xx_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", http_server=~\"$HttpServers\", quantile=~\"0.99\"}[1m])",
+              "format": "time_series",
+              "legendFormat": "{{host}} / {{application}} / {{http_server}} / p99"
+            },
+            {
+              "expr": "irate(akka_http_http_server_response_time_5xx_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", http_server=~\"$HttpServers\", quantile=~\"0.95\"}[1m])",
+              "format": "time_series",
+              "legendFormat": "{{host}} / {{application}} / {{http_server}} / p95"
+            },
+            {
+              "expr": "irate(akka_http_http_server_response_time_5xx_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", http_server=~\"$HttpServers\", quantile=~\"0.5\"}[1m])",
+              "format": "time_series",
+              "legendFormat": "{{host}} / {{application}} / {{http_server}} / p50"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Response Time 5xx",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "value_type": "cumulative",
+            "sort": 0
+          },
+          "type": "graph",
+          "xaxis": {
+            "show": true
+          },
+          "yaxes": [
+            {
+              "format": "ns",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": 0,
               "show": true
             },
             {
@@ -713,7 +815,7 @@
           "multi": true,
           "name": "Applications",
           "options": [],
-          "query": "query_result(jvm_heap_committed{host=~\"$Servers\"})",
+          "query": "query_result(akka_http_http_server_connections{host=~\"$Servers\"})",
           "refresh": 1,
           "regex": "/application=\"([^\"]+)/",
           "tagValuesQuery": "",
@@ -722,68 +824,36 @@
           "useTags": false
       },
       {
-        "current": {},
-        "datasource": "Cinnamon Prometheus",
-        "hide": 0,
-        "includeAll": true,
-        "multi": true,
-        "name": "Not Applicable",
-        "options": [],
-        "query": "",
-        "refresh": 1,
-        "regex": "",
-        "tagValuesQuery": "",
-        "tagsQuery": "name",
-        "type": "query",
-        "useTags": false
+          "current": {},
+          "datasource": "Cinnamon Prometheus",
+          "hide": 0,
+          "includeAll": true,
+          "multi": true,
+          "name": "ActorSystems",
+          "options": [],
+          "query": "query_result(akka_http_http_server_connections{host=~\"$Servers\", application=~\"$Applications\"})",
+          "refresh": 1,
+          "regex": "/actor_system=\"([^\"]+)/",
+          "tagValuesQuery": "",
+          "tagsQuery": "name",
+          "type": "query",
+          "useTags": false
       },
       {
-        "current": {},
-        "datasource": "Cinnamon Prometheus",
-        "hide": 0,
-        "includeAll": true,
-        "multi": true,
-        "name": "Not Applicable",
-        "options": [],
-        "query": "",
-        "refresh": 1,
-        "regex": "",
-        "tagValuesQuery": "",
-        "tagsQuery": "name",
-        "type": "query",
-        "useTags": false
-      },
-      {
-        "current": {},
-        "datasource": "Cinnamon Prometheus",
-        "hide": 0,
-        "includeAll": true,
-        "multi": true,
-        "name": "Not Applicable",
-        "options": [],
-        "query": "",
-        "refresh": 1,
-        "regex": "",
-        "tagValuesQuery": "",
-        "tagsQuery": "name",
-        "type": "query",
-        "useTags": false
-      },
-      {
-        "current": {},
-        "datasource": "Cinnamon Prometheus",
-        "hide": 0,
-        "includeAll": true,
-        "multi": true,
-        "name": "Not Applicable",
-        "options": [],
-        "query": "",
-        "refresh": 1,
-        "regex": "",
-        "tagValuesQuery": "",
-        "tagsQuery": "name",
-        "type": "query",
-        "useTags": false
+          "current": {},
+          "datasource": "Cinnamon Prometheus",
+          "hide": 0,
+          "includeAll": true,
+          "multi": true,
+          "name": "HttpServers",
+          "options": [],
+          "query": "query_result(akka_http_http_server_connections{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\"})",
+          "refresh": 1,
+          "regex": "/http_server=\"([^\"]+)/",
+          "tagValuesQuery": "",
+          "tagsQuery": "name",
+          "type": "query",
+          "useTags": false
       }
     ]
   },
