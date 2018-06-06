@@ -79,7 +79,7 @@ object CinnamonAkkaStreamsDemo extends App {
     .filter(two)
     .mapAsync(4)(i => FutureNamed("second.three")(three(i)))
     .to(Sink.ignore)
-    .instrumented(name = "second")
+    .instrumented(name = "second", traceable = true)
     .run()
 
   Source.fromIterator(generate)
@@ -87,7 +87,7 @@ object CinnamonAkkaStreamsDemo extends App {
     .filter(two)
     .mapAsyncUnordered(4)(i => FutureNamed("third.three")(three(i)))
     .to(Sink.ignore)
-    .instrumented(name = "third")
+    .instrumented(name = "third", traceable = true)
     .run()
 
   Source.fromIterator(() => Iterator.continually(random(min = 1, max = 5))).flatMapConcat { n =>
@@ -118,7 +118,7 @@ object CinnamonAkkaStreamsDemo extends App {
     balance.out(0) ~> Flow[Int].filter(two).mapAsyncUnordered(4)(i => FutureNamed("sixth.three.left")(three(increase(i)))).to(Sink.ignore)
     balance.out(1) ~> Flow[Int].mapAsyncUnordered(4)(i => FutureNamed("sixth.three.right")(three(i))).to(Sink.ignore)
     ClosedShape
-  }).instrumented(name = "sixth").run()
+  }).instrumented(name = "sixth", traceable = true).run()
 
   println("Press enter to exit ...")
   System.in.read()

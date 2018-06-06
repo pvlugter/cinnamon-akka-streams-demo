@@ -15,6 +15,10 @@ services:
     networks: ["sandbox"]
     depends_on: ["prometheus"]
 
+  zipkin:
+    image: openzipkin/zipkin:2.8.4
+    ports: ["9411:9411"]
+
 networks:
 
   sandbox:

@@ -6,7 +6,8 @@ lazy val cinnamonAkkaStreamsDemo = project
     libraryDependencies ++= Seq(
       "com.typesafe.akka" %% "akka-stream" % "2.5.13",
       Cinnamon.library.cinnamonAkkaStream,
-      Cinnamon.library.cinnamonPrometheusHttpServer
+      Cinnamon.library.cinnamonPrometheusHttpServer,
+      Cinnamon.library.cinnamonOpenTracingZipkin
     ),
     cinnamon in run := true,
     connectInput in run := true
