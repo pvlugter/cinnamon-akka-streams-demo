@@ -32,7 +32,7 @@ cd sandbox
 docker-compose up
 ```
 
-> Note: the Prometheus sandbox is configured for Docker for Mac. Since Prometheus needs an address to scrape from, the Prometheus configuration will need to be updated for other platforms. 
+> Note: the Prometheus sandbox is configured for Docker for Mac. Since Prometheus needs an address to scrape from, the Prometheus configuration will need to be updated for other platforms. For example on Linux you can remove the sandbox network and set each container to run in `network_mode: "host"`
 
 Run the demo application:
 
