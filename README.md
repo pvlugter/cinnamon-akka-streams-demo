@@ -2,9 +2,9 @@
 
 Demo showing work-in-progress for Akka Streams instrumentation, including [Akka Stream metrics], [Scala Future metrics], and [Akka Stream tracing].
 
-[Akka Stream metrics]: https://downloads.lightbend.com/cinnamon/docs/2.10.0-20180605-26e7708-streams/instrumentations/akka-streams/akka-streams.html
-[Scala Future metrics]: https://downloads.lightbend.com/cinnamon/docs/2.10.0-20180605-26e7708-streams/instrumentations/scala/scala-futures.html
-[Akka Stream tracing]: https://downloads.lightbend.com/cinnamon/docs/2.10.0-20180605-26e7708-streams/extensions/opentracing.html
+[Akka Stream metrics]: https://downloads.lightbend.com/cinnamon/docs/2.10.0-20180704-fa1bce5-streams/instrumentations/akka-streams/akka-streams.html
+[Scala Future metrics]: https://downloads.lightbend.com/cinnamon/docs/2.10.0-20180704-fa1bce5-streams/instrumentations/scala/scala-futures.html
+[Akka Stream tracing]: https://downloads.lightbend.com/cinnamon/docs/2.10.0-20180704-fa1bce5-streams/extensions/opentracing.html
 
 
 ## Credentials file
