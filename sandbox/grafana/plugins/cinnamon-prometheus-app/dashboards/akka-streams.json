@@ -27,7 +27,7 @@
             "threshold2": null,
             "threshold2Color": "rgba(234, 112, 112, 0.22)"
           },
-          "id": 14,
+          "id": 6,
           "interval": "10s",
           "isNew": true,
           "legend": {
@@ -48,7 +48,7 @@
           "points": false,
           "renderer": "flot",
           "seriesOverrides": [],
-          "span": 3,
+          "span": 6,
           "stack": false,
           "steppedLine": false,
           "targets": [
@@ -61,158 +61,6 @@
           "timeFrom": null,
           "timeShift": null,
           "title": "Running streams",
-          "tooltip": {
-            "msResolution": false,
-            "shared": true,
-            "value_type": "cumulative",
-            "sort": 0
-          },
-          "type": "graph",
-          "xaxis": {
-            "show": true
-          },
-          "yaxes": [
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ]
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "datasource": "Cinnamon Prometheus",
-          "editable": true,
-          "error": false,
-          "fill": 1,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
-          "id": 2,
-          "interval": "10s",
-          "isNew": true,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": false,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 2,
-          "links": [],
-          "nullPointMode": "null",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "span": 3,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "akka_stream_stream_running_stages{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", stream=~\"$Streams\"}",
-              "format": "time_series",
-              "legendFormat": "{{application}} / {{actor_system}} / {{stream}}"
-            }
-          ],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Running stages per stream",
-          "tooltip": {
-            "msResolution": false,
-            "shared": true,
-            "value_type": "cumulative",
-            "sort": 0
-          },
-          "type": "graph",
-          "xaxis": {
-            "show": true
-          },
-          "yaxes": [
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ]
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "datasource": "Cinnamon Prometheus",
-          "editable": true,
-          "error": false,
-          "fill": 1,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
-          "id": 13,
-          "interval": "10s",
-          "isNew": true,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": false,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 2,
-          "links": [],
-          "nullPointMode": "null",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "span": 3,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "akka_stream_stage_running_stages{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", stream=~\"$Streams\", stage=~\"$Stages\"}",
-              "format": "time_series",
-              "legendFormat": "{{application}} / {{actor_system}} / {{stream}} / {{stage}}"
-            }
-          ],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Running stages",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -276,19 +124,19 @@
           "points": false,
           "renderer": "flot",
           "seriesOverrides": [],
-          "span": 3,
+          "span": 6,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "irate(akka_stream_stage_stage_failure{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", stream=~\"$Streams\", stage=~\"$Stages\"}[1m])",
+              "expr": "akka_stream_stream_running_operators{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", stream=~\"$Streams\"}",
               "format": "time_series",
-              "legendFormat": "{{application}} / {{actor_system}} / {{stream}} / {{stage}}"
+              "legendFormat": "{{application}} / {{actor_system}} / {{stream}}"
             }
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Stage failure rate",
+          "title": "Running operators per stream",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -301,8 +149,8 @@
           },
           "yaxes": [
             {
-              "format": "ops",
-              "label": "failures/second",
+              "format": "short",
+              "label": null,
               "logBase": 1,
               "max": null,
               "min": 0,
@@ -339,7 +187,7 @@
             "threshold2": null,
             "threshold2Color": "rgba(234, 112, 112, 0.22)"
           },
-          "id": 5,
+          "id": 3,
           "interval": "10s",
           "isNew": true,
           "legend": {
@@ -360,7 +208,7 @@
           "points": false,
           "renderer": "flot",
           "seriesOverrides": [],
-          "span": 3,
+          "span": 6,
           "stack": false,
           "steppedLine": false,
           "targets": [
@@ -415,7 +263,7 @@
             "threshold2": null,
             "threshold2Color": "rgba(234, 112, 112, 0.22)"
           },
-          "id": 11,
+          "id": 5,
           "interval": "10s",
           "isNew": true,
           "legend": {
@@ -436,260 +284,19 @@
           "points": false,
           "renderer": "flot",
           "seriesOverrides": [],
-          "span": 3,
+          "span": 6,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "akka_stream_stream_flow_time_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", stream=~\"$Streams\", quantile=~\"$Quantile\"}",
+              "expr": "irate(akka_stream_operator_operator_failure{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", stream=~\"$Streams\", operator=~\"$Operators\"}[1m])",
               "format": "time_series",
-              "legendFormat": "{{application}} / {{actor_system}} / {{stream}} / total"
-            },
-            {
-              "expr": "akka_stream_stream_flow_active_time_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", stream=~\"$Streams\", quantile=~\"$Quantile\"}",
-              "format": "time_series",
-              "legendFormat": "{{application}} / {{actor_system}} / {{stream}} / active"
+              "legendFormat": "{{application}} / {{actor_system}} / {{stream}} / {{operator}}"
             }
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Stream flow time ($Quantile quantile)",
-          "tooltip": {
-            "msResolution": false,
-            "shared": true,
-            "value_type": "cumulative",
-            "sort": 0
-          },
-          "type": "graph",
-          "xaxis": {
-            "show": true
-          },
-          "yaxes": [
-            {
-              "format": "ns",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ]
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "datasource": "Cinnamon Prometheus",
-          "editable": true,
-          "error": false,
-          "fill": 1,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
-          "id": 10,
-          "interval": "10s",
-          "isNew": true,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": false,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 2,
-          "links": [],
-          "nullPointMode": "null",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "span": 3,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "akka_stream_stream_flow_efficiency{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", stream=~\"$Streams\", quantile=~\"$Quantile\"}",
-              "format": "time_series",
-              "legendFormat": "{{application}} / {{actor_system}} / {{stream}}"
-            }
-          ],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Stream flow efficiency ($Quantile quantile)",
-          "tooltip": {
-            "msResolution": false,
-            "shared": true,
-            "value_type": "cumulative",
-            "sort": 0
-          },
-          "type": "graph",
-          "xaxis": {
-            "show": true
-          },
-          "yaxes": [
-            {
-              "format": "percent",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ]
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "datasource": "Cinnamon Prometheus",
-          "editable": true,
-          "error": false,
-          "fill": 1,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
-          "id": 8,
-          "interval": "10s",
-          "isNew": true,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": false,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 2,
-          "links": [],
-          "nullPointMode": "null",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "span": 3,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "akka_stream_stage_flow_time_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", stream=~\"$Streams\", stage=~\"$Stages\", quantile=~\"$Quantile\"}",
-              "format": "time_series",
-              "legendFormat": "{{application}} / {{actor_system}} / {{stream}} / {{stage}}"
-            }
-          ],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Stage flow time ($Quantile quantile)",
-          "tooltip": {
-            "msResolution": false,
-            "shared": true,
-            "value_type": "cumulative",
-            "sort": 0
-          },
-          "type": "graph",
-          "xaxis": {
-            "show": true
-          },
-          "yaxes": [
-            {
-              "format": "ns",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "title": "",
-      "collapse": false,
-      "editable": true,
-      "height": "250px",
-      "panels": [
-        {
-          "aliasColors": {},
-          "bars": false,
-          "datasource": "Cinnamon Prometheus",
-          "editable": true,
-          "error": false,
-          "fill": 1,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
-          "id": 7,
-          "interval": "10s",
-          "isNew": true,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": false,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 2,
-          "links": [],
-          "nullPointMode": "null",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "span": 4,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "irate(akka_stream_stage_downstream_throughput{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", stream=~\"$Streams\", stage=~\"$Stages\"}[1m])",
-              "format": "time_series",
-              "legendFormat": "{{application}} / {{actor_system}} / {{stream}} / {{stage}}"
-            }
-          ],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Stage downstream throughput",
+          "title": "Operator failure rate",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -703,159 +310,7 @@
           "yaxes": [
             {
               "format": "ops",
-              "label": "elements/second",
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ]
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "datasource": "Cinnamon Prometheus",
-          "editable": true,
-          "error": false,
-          "fill": 1,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
-          "id": 6,
-          "interval": "10s",
-          "isNew": true,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": false,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 2,
-          "links": [],
-          "nullPointMode": "null",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "span": 4,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "akka_stream_stage_downstream_processing_time_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", stream=~\"$Streams\", stage=~\"$Stages\", quantile=~\"$Quantile\"}",
-              "format": "time_series",
-              "legendFormat": "{{application}} / {{actor_system}} / {{stream}} / {{stage}}"
-            }
-          ],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Stage downstream processing time ($Quantile quantile)",
-          "tooltip": {
-            "msResolution": false,
-            "shared": true,
-            "value_type": "cumulative",
-            "sort": 0
-          },
-          "type": "graph",
-          "xaxis": {
-            "show": true
-          },
-          "yaxes": [
-            {
-              "format": "ns",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ]
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "datasource": "Cinnamon Prometheus",
-          "editable": true,
-          "error": false,
-          "fill": 1,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
-          "id": 3,
-          "interval": "10s",
-          "isNew": true,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": false,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 2,
-          "links": [],
-          "nullPointMode": "null",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "span": 4,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "akka_stream_stage_downstream_latency_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", stream=~\"$Streams\", stage=~\"$Stages\", quantile=~\"$Quantile\"}",
-              "format": "time_series",
-              "legendFormat": "{{application}} / {{actor_system}} / {{stream}} / {{stage}}"
-            }
-          ],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Stage downstream latency ($Quantile quantile)",
-          "tooltip": {
-            "msResolution": false,
-            "shared": true,
-            "value_type": "cumulative",
-            "sort": 0
-          },
-          "type": "graph",
-          "xaxis": {
-            "show": true
-          },
-          "yaxes": [
-            {
-              "format": "ns",
-              "label": null,
+              "label": "failures/second",
               "logBase": 1,
               "max": null,
               "min": 0,
@@ -892,7 +347,7 @@
             "threshold2": null,
             "threshold2Color": "rgba(234, 112, 112, 0.22)"
           },
-          "id": 12,
+          "id": 2,
           "interval": "10s",
           "isNew": true,
           "legend": {
@@ -913,19 +368,19 @@
           "points": false,
           "renderer": "flot",
           "seriesOverrides": [],
-          "span": 4,
+          "span": 6,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "irate(akka_stream_stage_upstream_throughput{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", stream=~\"$Streams\", stage=~\"$Stages\"}[1m])",
+              "expr": "irate(akka_stream_operator_throughput{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", stream=~\"$Streams\", operator=~\"$Operators\"}[1m])",
               "format": "time_series",
-              "legendFormat": "{{application}} / {{actor_system}} / {{stream}} / {{stage}}"
+              "legendFormat": "{{application}} / {{actor_system}} / {{stream}} / {{operator}}"
             }
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Stage upstream throughput",
+          "title": "Operator throughput",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -989,95 +444,19 @@
           "points": false,
           "renderer": "flot",
           "seriesOverrides": [],
-          "span": 4,
+          "span": 6,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "akka_stream_stage_upstream_processing_time_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", stream=~\"$Streams\", stage=~\"$Stages\", quantile=~\"$Quantile\"}",
+              "expr": "akka_stream_operator_processing_time_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", stream=~\"$Streams\", operator=~\"$Operators\", quantile=~\"$Quantile\"}",
               "format": "time_series",
-              "legendFormat": "{{application}} / {{actor_system}} / {{stream}} / {{stage}}"
+              "legendFormat": "{{application}} / {{actor_system}} / {{stream}} / {{operator}}"
             }
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Stage upstream processing time ($Quantile quantile)",
-          "tooltip": {
-            "msResolution": false,
-            "shared": true,
-            "value_type": "cumulative",
-            "sort": 0
-          },
-          "type": "graph",
-          "xaxis": {
-            "show": true
-          },
-          "yaxes": [
-            {
-              "format": "ns",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ]
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "datasource": "Cinnamon Prometheus",
-          "editable": true,
-          "error": false,
-          "fill": 1,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
-          "id": 9,
-          "interval": "10s",
-          "isNew": true,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": false,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 2,
-          "links": [],
-          "nullPointMode": "null",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "span": 4,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "akka_stream_stage_upstream_latency_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", stream=~\"$Streams\", stage=~\"$Stages\", quantile=~\"$Quantile\"}",
-              "format": "time_series",
-              "legendFormat": "{{application}} / {{actor_system}} / {{stream}} / {{stage}}"
-            }
-          ],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Stage upstream latency ($Quantile quantile)",
+          "title": "Operator processing time ($Quantile quantile)",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -1165,7 +544,7 @@
           "multi": true,
           "name": "Applications",
           "options": [],
-          "query": "query_result(akka_stream_stream_running_streams{host=~\"$Servers\"})",
+          "query": "query_result(count_over_time(akka_stream_stream_running_streams{host=~\"$Servers\"}[15m]))",
           "refresh": 1,
           "regex": "/application=\"([^\"]+)/",
           "tagValuesQuery": "",
@@ -1181,7 +560,7 @@
           "multi": true,
           "name": "ActorSystems",
           "options": [],
-          "query": "query_result(akka_stream_stream_running_streams{host=~\"$Servers\", application=~\"$Applications\"})",
+          "query": "query_result(count_over_time(akka_stream_stream_running_streams{host=~\"$Servers\", application=~\"$Applications\"}[15m]))",
           "refresh": 1,
           "regex": "/actor_system=\"([^\"]+)/",
           "tagValuesQuery": "",
@@ -1197,7 +576,7 @@
           "multi": true,
           "name": "Streams",
           "options": [],
-          "query": "query_result(akka_stream_stream_running_streams{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\"})",
+          "query": "query_result(count_over_time(akka_stream_stream_running_streams{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\"}[15m]))",
           "refresh": 1,
           "regex": "/stream=\"([^\"]+)/",
           "tagValuesQuery": "",
@@ -1211,11 +590,11 @@
           "hide": 0,
           "includeAll": true,
           "multi": true,
-          "name": "Stages",
+          "name": "Operators",
           "options": [],
-          "query": "query_result(akka_stream_stage_running_stages{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", stream=~\"$Streams\"})",
+          "query": "query_result(count_over_time(akka_stream_operator_running_operators{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", stream=~\"$Streams\"}[15m]))",
           "refresh": 1,
-          "regex": "/stage=\"([^\"]+)/",
+          "regex": "/operator=\"([^\"]+)/",
           "tagValuesQuery": "",
           "tagsQuery": "name",
           "type": "query",
@@ -1229,7 +608,7 @@
           "multi": false,
           "name": "Quantile",
           "options": [],
-          "query": "label_values(akka_stream_stage_downstream_processing_time_ns, quantile)",
+          "query": "label_values(akka_stream_operator_processing_time_ns, quantile)",
           "refresh": 1,
           "regex": "",
           "tagValuesQuery": "",

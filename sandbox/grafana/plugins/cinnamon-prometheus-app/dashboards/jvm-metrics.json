@@ -713,7 +713,7 @@
           "multi": true,
           "name": "Applications",
           "options": [],
-          "query": "query_result(jvm_heap_committed{host=~\"$Servers\"})",
+          "query": "query_result(count_over_time(jvm_heap_committed{host=~\"$Servers\"}[15m]))",
           "refresh": 1,
           "regex": "/application=\"([^\"]+)/",
           "tagValuesQuery": "",

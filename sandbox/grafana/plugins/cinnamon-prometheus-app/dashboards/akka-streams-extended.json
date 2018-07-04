@@ -1,6 +1,6 @@
 {
   "id": null,
-  "title": "Akka Events",
+  "title": "Akka Streams (extended)",
   "tags": [],
   "style": "dark",
   "timezone": "browser",
@@ -27,7 +27,7 @@
             "threshold2": null,
             "threshold2Color": "rgba(234, 112, 112, 0.22)"
           },
-          "id": 2,
+          "id": 13,
           "interval": "10s",
           "isNew": true,
           "legend": {
@@ -48,19 +48,19 @@
           "points": false,
           "renderer": "flot",
           "seriesOverrides": [],
-          "span": 6,
+          "span": 3,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "irate(akka_actor_actor_failure{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\", actor=~\"$Actors\"}[$Rates])",
+              "expr": "akka_stream_stream_running_streams{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", stream=~\"$Streams\"}",
               "format": "time_series",
-              "legendFormat": "{{host}} / {{dispatcher}} / {{actor}}"
+              "legendFormat": "{{application}} / {{actor_system}} / {{stream}}"
             }
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Failure Events: $Rates",
+          "title": "Running streams",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -73,8 +73,8 @@
           },
           "yaxes": [
             {
-              "format": "ops",
-              "label": "events/second",
+              "format": "short",
+              "label": null,
               "logBase": 1,
               "max": null,
               "min": 0,
@@ -103,7 +103,7 @@
             "threshold2": null,
             "threshold2Color": "rgba(234, 112, 112, 0.22)"
           },
-          "id": 4,
+          "id": 1,
           "interval": "10s",
           "isNew": true,
           "legend": {
@@ -124,19 +124,19 @@
           "points": false,
           "renderer": "flot",
           "seriesOverrides": [],
-          "span": 6,
+          "span": 3,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "irate(akka_actor_dead_letter{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\", actor=~\"$Actors\"}[$Rates])",
+              "expr": "akka_stream_stream_running_operators{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", stream=~\"$Streams\"}",
               "format": "time_series",
-              "legendFormat": "{{host}} / {{dispatcher}} / {{actor}}"
+              "legendFormat": "{{application}} / {{actor_system}} / {{stream}}"
             }
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Deadletters: $Rates",
+          "title": "Running operators per stream",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -148,93 +148,9 @@
             "show": true
           },
           "yaxes": [
-            {
-              "format": "ops",
-              "label": "events/second",
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            },
             {
               "format": "short",
               "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "title": "",
-      "collapse": false,
-      "editable": true,
-      "height": "250px",
-      "panels": [
-        {
-          "aliasColors": {},
-          "bars": false,
-          "datasource": "Cinnamon Prometheus",
-          "editable": true,
-          "error": false,
-          "fill": 1,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
-          "id": 5,
-          "interval": "10s",
-          "isNew": true,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": false,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 2,
-          "links": [],
-          "nullPointMode": "null",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "span": 6,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "irate(akka_actor_unhandled_message{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\", actor=~\"$Actors\"}[$Rates])",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{dispatcher}} / {{actor}}"
-            }
-          ],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Unhandled Messages: $Rates",
-          "tooltip": {
-            "msResolution": false,
-            "shared": true,
-            "value_type": "cumulative",
-            "sort": 0
-          },
-          "type": "graph",
-          "xaxis": {
-            "show": true
-          },
-          "yaxes": [
-            {
-              "format": "ops",
-              "label": "events/second",
               "logBase": 1,
               "max": null,
               "min": 0,
@@ -284,19 +200,95 @@
           "points": false,
           "renderer": "flot",
           "seriesOverrides": [],
-          "span": 6,
+          "span": 3,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "irate(akka_actor_log_error{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\", actor=~\"$Actors\"}[$Rates])",
+              "expr": "akka_stream_operator_running_operators{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", stream=~\"$Streams\", operator=~\"$Operators\"}",
               "format": "time_series",
-              "legendFormat": "{{host}} / {{dispatcher}} / {{actor}}"
+              "legendFormat": "{{application}} / {{actor_system}} / {{stream}} / {{operator}}"
             }
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Log Errors: $Rates",
+          "title": "Running operators",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "value_type": "cumulative",
+            "sort": 0
+          },
+          "type": "graph",
+          "xaxis": {
+            "show": true
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "Cinnamon Prometheus",
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 6,
+          "interval": "10s",
+          "isNew": true,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 3,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "irate(akka_stream_operator_operator_failure{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", stream=~\"$Streams\", operator=~\"$Operators\"}[1m])",
+              "format": "time_series",
+              "legendFormat": "{{application}} / {{actor_system}} / {{stream}} / {{operator}}"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Operator failure rate",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -310,7 +302,7 @@
           "yaxes": [
             {
               "format": "ops",
-              "label": "events/second",
+              "label": "failures/second",
               "logBase": 1,
               "max": null,
               "min": 0,
@@ -368,19 +360,19 @@
           "points": false,
           "renderer": "flot",
           "seriesOverrides": [],
-          "span": 6,
+          "span": 3,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "irate(akka_actor_log_warning{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\", actor=~\"$Actors\"}[$Rates])",
+              "expr": "irate(akka_stream_stream_throughput{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", stream=~\"$Streams\"}[1m])",
               "format": "time_series",
-              "legendFormat": "{{host}} / {{dispatcher}} / {{actor}}"
+              "legendFormat": "{{application}} / {{actor_system}} / {{stream}}"
             }
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Log Warnings: $Rates",
+          "title": "Stream throughput",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -394,91 +386,7 @@
           "yaxes": [
             {
               "format": "ops",
-              "label": "events/second",
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "title": "",
-      "collapse": false,
-      "editable": true,
-      "height": "250px",
-      "panels": [
-        {
-          "aliasColors": {},
-          "bars": false,
-          "datasource": "Cinnamon Prometheus",
-          "editable": true,
-          "error": false,
-          "fill": 1,
-          "grid": {
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
-          "id": 6,
-          "interval": "10s",
-          "isNew": true,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": false,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 2,
-          "links": [],
-          "nullPointMode": "null",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "span": 6,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "irate(akka_actor_mailbox_size_limit{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\", actor=~\"$Actors\"}[$Rates])",
-              "format": "time_series",
-              "legendFormat": "{{host}} / {{dispatcher}} / {{actor}}"
-            }
-          ],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Mailbox Size Breaches: $Rates",
-          "tooltip": {
-            "msResolution": false,
-            "shared": true,
-            "value_type": "cumulative",
-            "sort": 0
-          },
-          "type": "graph",
-          "xaxis": {
-            "show": true
-          },
-          "yaxes": [
-            {
-              "format": "ops",
-              "label": "breaches/second",
+              "label": "elements/second",
               "logBase": 1,
               "max": null,
               "min": 0,
@@ -528,19 +436,24 @@
           "points": false,
           "renderer": "flot",
           "seriesOverrides": [],
-          "span": 6,
+          "span": 3,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "irate(akka_actor_mailbox_time_limit{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\", actor=~\"$Actors\"}[$Rates])",
+              "expr": "akka_stream_stream_flow_time_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", stream=~\"$Streams\", quantile=~\"$Quantile\"}",
               "format": "time_series",
-              "legendFormat": "{{host}} / {{dispatcher}} / {{actor}}"
+              "legendFormat": "{{application}} / {{actor_system}} / {{stream}} / total"
+            },
+            {
+              "expr": "akka_stream_stream_flow_active_time_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", stream=~\"$Streams\", quantile=~\"$Quantile\"}",
+              "format": "time_series",
+              "legendFormat": "{{application}} / {{actor_system}} / {{stream}} / active"
             }
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Mailbox Time Breaches: $Rates",
+          "title": "Stream flow time ($Quantile quantile)",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -553,8 +466,160 @@
           },
           "yaxes": [
             {
-              "format": "ops",
-              "label": "breaches/second",
+              "format": "ns",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "Cinnamon Prometheus",
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 7,
+          "interval": "10s",
+          "isNew": true,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 3,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "akka_stream_stream_flow_efficiency{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", stream=~\"$Streams\", quantile=~\"$Quantile\"}",
+              "format": "time_series",
+              "legendFormat": "{{application}} / {{actor_system}} / {{stream}}"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Stream flow efficiency ($Quantile quantile)",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "value_type": "cumulative",
+            "sort": 0
+          },
+          "type": "graph",
+          "xaxis": {
+            "show": true
+          },
+          "yaxes": [
+            {
+              "format": "percent",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "Cinnamon Prometheus",
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 10,
+          "interval": "10s",
+          "isNew": true,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 3,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "akka_stream_operator_flow_time_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", stream=~\"$Streams\", operator=~\"$Operators\", quantile=~\"$Quantile\"}",
+              "format": "time_series",
+              "legendFormat": "{{application}} / {{actor_system}} / {{stream}} / {{operator}}"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Operator flow time ($Quantile quantile)",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "value_type": "cumulative",
+            "sort": 0
+          },
+          "type": "graph",
+          "xaxis": {
+            "show": true
+          },
+          "yaxes": [
+            {
+              "format": "ns",
+              "label": null,
               "logBase": 1,
               "max": null,
               "min": 0,
@@ -591,7 +656,7 @@
             "threshold2": null,
             "threshold2Color": "rgba(234, 112, 112, 0.22)"
           },
-          "id": 7,
+          "id": 2,
           "interval": "10s",
           "isNew": true,
           "legend": {
@@ -612,19 +677,19 @@
           "points": false,
           "renderer": "flot",
           "seriesOverrides": [],
-          "span": 6,
+          "span": 4,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "irate(akka_actor_processing_time_limit{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\", actor=~\"$Actors\"}[$Rates])",
+              "expr": "irate(akka_stream_operator_throughput{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", stream=~\"$Streams\", operator=~\"$Operators\"}[1m])",
               "format": "time_series",
-              "legendFormat": "{{host}} / {{dispatcher}} / {{actor}}"
+              "legendFormat": "{{application}} / {{actor_system}} / {{stream}} / {{operator}}"
             }
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Processing Time Breaches: $Rates",
+          "title": "Operator throughput",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -638,7 +703,7 @@
           "yaxes": [
             {
               "format": "ops",
-              "label": "breaches/second",
+              "label": "elements/second",
               "logBase": 1,
               "max": null,
               "min": 0,
@@ -667,7 +732,7 @@
             "threshold2": null,
             "threshold2Color": "rgba(234, 112, 112, 0.22)"
           },
-          "id": 1,
+          "id": 4,
           "interval": "10s",
           "isNew": true,
           "legend": {
@@ -688,19 +753,179 @@
           "points": false,
           "renderer": "flot",
           "seriesOverrides": [],
-          "span": 6,
+          "span": 4,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "expr": "irate(akka_actor_stash_size_limit{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\", actor=~\"$Actors\"}[$Rates])",
+              "expr": "akka_stream_operator_processing_time_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", stream=~\"$Streams\", operator=~\"$Operators\", quantile=~\"$Quantile\"}",
               "format": "time_series",
-              "legendFormat": "{{host}} / {{dispatcher}} / {{actor}}"
+              "legendFormat": "{{application}} / {{actor_system}} / {{stream}} / {{operator}}"
             }
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Stash Size Breaches: $Rates",
+          "title": "Operator processing time ($Quantile quantile)",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "value_type": "cumulative",
+            "sort": 0
+          },
+          "type": "graph",
+          "xaxis": {
+            "show": true
+          },
+          "yaxes": [
+            {
+              "format": "ns",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "Cinnamon Prometheus",
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 11,
+          "interval": "10s",
+          "isNew": true,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 4,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "akka_stream_operator_latency_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", stream=~\"$Streams\", operator=~\"$Operators\", quantile=~\"$Quantile\"}",
+              "format": "time_series",
+              "legendFormat": "{{application}} / {{actor_system}} / {{stream}} / {{operator}}"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Operator latency ($Quantile quantile)",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "value_type": "cumulative",
+            "sort": 0
+          },
+          "type": "graph",
+          "xaxis": {
+            "show": true
+          },
+          "yaxes": [
+            {
+              "format": "ns",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "",
+      "collapse": false,
+      "editable": true,
+      "height": "250px",
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "Cinnamon Prometheus",
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 12,
+          "interval": "10s",
+          "isNew": true,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 4,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "irate(akka_stream_operator_demand{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", stream=~\"$Streams\", operator=~\"$Operators\"}[1m])",
+              "format": "time_series",
+              "legendFormat": "{{application}} / {{actor_system}} / {{stream}} / {{operator}}"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Operator demand",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -714,7 +939,159 @@
           "yaxes": [
             {
               "format": "ops",
-              "label": "breaches/second",
+              "label": "elements/second",
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "Cinnamon Prometheus",
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 5,
+          "interval": "10s",
+          "isNew": true,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 4,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "akka_stream_operator_demand_processing_time_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", stream=~\"$Streams\", operator=~\"$Operators\", quantile=~\"$Quantile\"}",
+              "format": "time_series",
+              "legendFormat": "{{application}} / {{actor_system}} / {{stream}} / {{operator}}"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Operator demand processing time ($Quantile quantile)",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "value_type": "cumulative",
+            "sort": 0
+          },
+          "type": "graph",
+          "xaxis": {
+            "show": true
+          },
+          "yaxes": [
+            {
+              "format": "ns",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "Cinnamon Prometheus",
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 14,
+          "interval": "10s",
+          "isNew": true,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 4,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "akka_stream_operator_demand_latency_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", stream=~\"$Streams\", operator=~\"$Operators\", quantile=~\"$Quantile\"}",
+              "format": "time_series",
+              "legendFormat": "{{application}} / {{actor_system}} / {{stream}} / {{operator}}"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Operator demand latency ($Quantile quantile)",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "value_type": "cumulative",
+            "sort": 0
+          },
+          "type": "graph",
+          "xaxis": {
+            "show": true
+          },
+          "yaxes": [
+            {
+              "format": "ns",
+              "label": null,
               "logBase": 1,
               "max": null,
               "min": 0,
@@ -788,7 +1165,7 @@
           "multi": true,
           "name": "Applications",
           "options": [],
-          "query": "query_result(count_over_time(akka_actor_running_actors{host=~\"$Servers\"}[15m]))",
+          "query": "query_result(count_over_time(akka_stream_stream_running_streams{host=~\"$Servers\"}[15m]))",
           "refresh": 1,
           "regex": "/application=\"([^\"]+)/",
           "tagValuesQuery": "",
@@ -804,7 +1181,7 @@
           "multi": true,
           "name": "ActorSystems",
           "options": [],
-          "query": "query_result(count_over_time(akka_actor_running_actors{host=~\"$Servers\", application=~\"$Applications\"}[15m]))",
+          "query": "query_result(count_over_time(akka_stream_stream_running_streams{host=~\"$Servers\", application=~\"$Applications\"}[15m]))",
           "refresh": 1,
           "regex": "/actor_system=\"([^\"]+)/",
           "tagValuesQuery": "",
@@ -818,11 +1195,11 @@
           "hide": 0,
           "includeAll": true,
           "multi": true,
-          "name": "Dispatchers",
+          "name": "Streams",
           "options": [],
-          "query": "query_result(count_over_time(akka_actor_running_actors{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\"}[15m]))",
+          "query": "query_result(count_over_time(akka_stream_stream_running_streams{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\"}[15m]))",
           "refresh": 1,
-          "regex": "/dispatcher=\"([^\"]+)/",
+          "regex": "/stream=\"([^\"]+)/",
           "tagValuesQuery": "",
           "tagsQuery": "name",
           "type": "query",
@@ -834,40 +1211,30 @@
           "hide": 0,
           "includeAll": true,
           "multi": true,
-          "name": "Actors",
+          "name": "Operators",
           "options": [],
-          "query": "query_result(count_over_time(akka_actor_running_actors{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", dispatcher=~\"$Dispatchers\"}[15m]))",
+          "query": "query_result(count_over_time(akka_stream_operator_running_operators{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", stream=~\"$Streams\"}[15m]))",
           "refresh": 1,
-          "regex": "/actor=\"([^\"]+)/",
+          "regex": "/operator=\"([^\"]+)/",
           "tagValuesQuery": "",
           "tagsQuery": "name",
           "type": "query",
           "useTags": false
       },
       {
-          "current": {
-            "tags": [],
-            "text": "m1_rate",
-            "value": "1m"
-          },
+          "current": {},
           "datasource": "Cinnamon Prometheus",
           "hide": 0,
           "includeAll": false,
           "multi": false,
-          "name": "Rates",
-          "options": [
-            {
-              "selected": true,
-              "text": "m1_rate",
-              "value": "1m"
-            }
-          ],
-          "query": "",
-          "refresh": 0,
+          "name": "Quantile",
+          "options": [],
+          "query": "label_values(akka_stream_operator_processing_time_ns, quantile)",
+          "refresh": 1,
           "regex": "",
           "tagValuesQuery": "",
           "tagsQuery": "name",
-          "type": "custom",
+          "type": "query",
           "useTags": false
       }
     ]

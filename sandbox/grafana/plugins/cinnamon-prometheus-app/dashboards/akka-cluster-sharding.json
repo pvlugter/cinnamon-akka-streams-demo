@@ -1,6 +1,6 @@
 {
   "id": null,
-  "title": "Play Endpoints",
+  "title": "Akka Cluster Sharding",
   "tags": [],
   "style": "dark",
   "timezone": "browser",
@@ -53,14 +53,14 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "irate(akka_http_request_path_endpoint_responses{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", http_server=~\"$HttpServers\", request_path=~\"$Endpoints\"}[1m])",
+              "expr": "shard_region_shard_count_value{self_node=~\"$Nodes\", shard_region=~\"$Regions\"}",
               "format": "time_series",
-              "legendFormat": "{{host}} / {{http_server}} / {{request_path}}"
+              "legendFormat": "{{self_node}} / {{shard_region}}"
             }
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "$Endpoints response rate: 1 min",
+          "title": "Shard per region",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -73,8 +73,8 @@
           },
           "yaxes": [
             {
-              "format": "ops",
-              "label": "ops/second",
+              "format": "short",
+              "label": "",
               "logBase": 1,
               "max": null,
               "min": 0,
@@ -129,14 +129,14 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "akka_http_request_path_endpoint_response_time_ns{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", http_server=~\"$HttpServers\", request_path=~\"$Endpoints\", quantile=~\"0.99\"}",
+              "expr": "shard_shard_entity_count_value{self_node=~\"$Nodes\", shard_region=~\"$Regions\"}",
               "format": "time_series",
-              "legendFormat": "{{host}} / {{http_server}} / {{request_path}}"
+              "legendFormat": "{{self_node}} / {{shard_region}} / {{shard}}"
             }
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "$Endpoints response time",
+          "title": "Shard entities per shard",
           "tooltip": {
             "msResolution": false,
             "shared": true,
@@ -149,8 +149,8 @@
           },
           "yaxes": [
             {
-              "format": "ns",
-              "label": null,
+              "format": "short",
+              "label": "",
               "logBase": 1,
               "max": null,
               "min": 0,
@@ -166,8 +166,7 @@
             }
           ]
         }
-      ],
-      "repeat": "Endpoints"
+      ]
     }
   ],
   "time": {
@@ -225,7 +224,7 @@
           "multi": true,
           "name": "Applications",
           "options": [],
-          "query": "query_result(count_over_time(akka_http_http_server_connections{host=~\"$Servers\"}[15m]))",
+          "query": "query_result(count_over_time(shard_region_shard_count_value{host=~\"$Servers\"}[15m]))",
           "refresh": 1,
           "regex": "/application=\"([^\"]+)/",
           "tagValuesQuery": "",
@@ -239,11 +238,11 @@
           "hide": 0,
           "includeAll": true,
           "multi": true,
-          "name": "ActorSystems",
+          "name": "Nodes",
           "options": [],
-          "query": "query_result(count_over_time(akka_http_http_server_connections{host=~\"$Servers\", application=~\"$Applications\"}[15m]))",
+          "query": "query_result(count_over_time(shard_region_shard_count_value{host=~\"$Servers\", application=~\"$Applications\"}[15m]))",
           "refresh": 1,
-          "regex": "/actor_system=\"([^\"]+)/",
+          "regex": "/self_node=\"([^\"]+)/",
           "tagValuesQuery": "",
           "tagsQuery": "name",
           "type": "query",
@@ -255,27 +254,11 @@
           "hide": 0,
           "includeAll": true,
           "multi": true,
-          "name": "HttpServers",
+          "name": "Regions",
           "options": [],
-          "query": "query_result(count_over_time(akka_http_http_server_connections{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\"}[15m]))",
+          "query": "query_result(count_over_time(shard_region_shard_count_value{host=~\"$Servers\", application=~\"$Applications\", self_node=~\"$Nodes\"}[15m]))",
           "refresh": 1,
-          "regex": "/http_server=\"([^\"]+)/",
-          "tagValuesQuery": "",
-          "tagsQuery": "name",
-          "type": "query",
-          "useTags": false
-      },
-      {
-          "current": {},
-          "datasource": "Cinnamon Prometheus",
-          "hide": 0,
-          "includeAll": true,
-          "multi": true,
-          "name": "Endpoints",
-          "options": [],
-          "query": "query_result(count_over_time(akka_http_request_path_endpoint_responses{host=~\"$Servers\", application=~\"$Applications\", actor_system=~\"$ActorSystems\", http_server=~\"$HttpServers\"}[15m]))",
-          "refresh": 1,
-          "regex": "/request_path=\"([^\"]+)/",
+          "regex": "/shard_region=\"([^\"]+)/",
           "tagValuesQuery": "",
           "tagsQuery": "name",
           "type": "query",
