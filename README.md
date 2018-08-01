@@ -2,9 +2,12 @@
 
 Demo showing work-in-progress for Akka Streams instrumentation, including [Akka Stream metrics], [Scala Future metrics], and [Akka Stream tracing].
 
-[Akka Stream metrics]: https://downloads.lightbend.com/cinnamon/docs/2.10.0-20180704-fa1bce5-streams/instrumentations/akka-streams/akka-streams.html
-[Scala Future metrics]: https://downloads.lightbend.com/cinnamon/docs/2.10.0-20180704-fa1bce5-streams/instrumentations/scala/scala-futures.html
-[Akka Stream tracing]: https://downloads.lightbend.com/cinnamon/docs/2.10.0-20180704-fa1bce5-streams/extensions/opentracing.html
+> **Note**: Telemetry for Akka Streams is [now released] and available in Cinnamon 2.10.
+
+[Akka Stream metrics]: https://developer.lightbend.com/docs/cinnamon/current/instrumentations/akka-streams/akka-streams.html
+[Scala Future metrics]: https://developer.lightbend.com/docs/cinnamon/current/instrumentations/scala/scala-futures.html
+[Akka Stream tracing]: https://developer.lightbend.com/docs/cinnamon/current/extensions/opentracing.html
+[now released]: https://developer.lightbend.com/blog/2018-07-31-cinnamon-2-10-with-akka-stream-telemetry/
 
 
 ## Credentials file
@@ -25,20 +28,22 @@ password = <password>
 
 ## Running the sample
 
-Start up the docker sandbox, with Prometheus, Grafana, and Zipkin:
+Download and start the [Cinnamon Prometheus Docker sandbox] (with Prometheus and Grafana).
 
+Start up [Zipkin in Docker]:
+ 
 ```
-cd sandbox
-docker-compose up
+docker run -d --name zipkin -p 9411:9411 openzipkin/zipkin
 ```
-
-> Note: the Prometheus sandbox is configured for Docker for Mac. Since Prometheus needs an address to scrape from, the Prometheus configuration will need to be updated for other platforms. 
 
 Run the demo application:
 
 ```
 sbt run
 ```
+
+[Cinnamon Prometheus Docker sandbox]: https://developer.lightbend.com/docs/cinnamon/current/plugins/prometheus/prometheus-sandbox.html
+[Zipkin in Docker]: https://zipkin.io/pages/quickstart.html
 
 ### Metrics
 
